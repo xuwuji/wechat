@@ -1,4 +1,4 @@
-package com.xuwuji.wechat.controller;
+package com.xuwuji.wechat.util;
 
 import java.security.MessageDigest;
 
