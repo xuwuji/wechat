@@ -10,4 +10,10 @@ public interface ResultMessage {
 	String getMsgType();
 
 	void setContent(String content);
+
+	String getToUserName();
+
+	String getFromUserName();
+
+	long getCreateTime();
 }

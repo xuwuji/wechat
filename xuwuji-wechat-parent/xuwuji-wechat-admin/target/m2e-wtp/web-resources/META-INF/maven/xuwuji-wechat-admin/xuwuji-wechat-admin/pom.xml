@@ -6,8 +6,16 @@
 		<artifactId>xuwuji-wechat-parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>xuwuji-webchat</artifactId>
+	<groupId>xuwuji-wechat-admin</groupId>
+	<artifactId>xuwuji-wechat-admin</artifactId>
 	<packaging>war</packaging>
+	<dependencies>
+		<dependency>
+			<groupId>com.qiniu</groupId>
+			<artifactId>qiniu-java-sdk</artifactId>
+			<version>[7.0.0, 7.0.99]</version>
+		</dependency>
+	</dependencies>
 	<build>
 		<plugins>
 			<plugin>
@@ -21,5 +29,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
 </project>

@@ -82,7 +82,7 @@ public class RecieveController {
 	@RequestMapping(value = "", method = RequestMethod.POST)
 	public void recieve(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		request.setCharacterEncoding("UTF-8");
-		//OutputStream out = response.getOutputStream();
+
 		StringBuffer sb = new StringBuffer();
 		InputStream is = request.getInputStream();
 		InputStreamReader isr = new InputStreamReader(is, "UTF-8");
@@ -94,23 +94,35 @@ public class RecieveController {
 		String xml = sb.toString();
 		// System.out.println(xml);
 		UserMessage message = UserXMLParser.parse(sb.toString());
+		String user = message.getFromUserName();
+
 		if (message != null && message.getMsgType().equals("text")) {
-			message.display();
-			String tulingresult = TulingGetResult.getResult(message.getContent());
-			System.out.println(tulingresult);
-			ResultMessage rm = TextMessageService.process((UserTextMessage) message);
-			tulingresult = TulingParser.getNormalText(tulingresult);
-			rm.setContent(tulingresult);
-			// OutPutXMLParser.parse(rm, out);
+			if (!message.getContent().equals("°ü")) {
+				OutputStream out = response.getOutputStream();
+				message.display();
+				String tulingresult = TulingGetResult.getResult(message.getContent());
+				System.out.println("tuling result:" + tulingresult);
+				ResultMessage rm = TextMessageService.process((UserTextMessage) message);
+				tulingresult = TulingParser.getNormalText(tulingresult);
+				rm.setContent(tulingresult);
+				OutPutXMLParser.parse(rm, out);
+			} else {
+				String a = "<xml><ToUserName>" + user + "</ToUserName>"
+						+ "<FromUserName>gh_156fb851cf61</FromUserName><CreateTime>1452265616</CreateTime>"
+						+ "<MsgType>news</MsgType><ArticleCount>3</ArticleCount>"
+						+ "<Articles><item><Title>lv</Title> <Description>pic-des-test</Description>"
+						+ "<PicUrl>http://7xpxq6.com1.z0.glb.clouddn.com/lv.jpg</PicUrl>"
+						+ "<Url>http://weidian.com/?userid=870151513</Url></item>"
+						+ "<item><Title>Gucci</Title> <Description>pic-des-test</Description>"
+						+ "<PicUrl>http://7xpxq6.com1.z0.glb.clouddn.com/gucci.jpg</PicUrl>"
+						+ "<Url>http://weidian.com/?userid=870151513</Url></item>"
+						+ "<item><Title>channel</Title> <Description>pic-des-test</Description>"
+						+ "<PicUrl>http://7xpxq6.com1.z0.glb.clouddn.com/channel.jpeg</PicUrl>"
+						+ "<Url>http://weidian.com/?userid=870151513</Url></item></Articles></xml> ";
+				response.getWriter().write(a);
+			}
 		}
 
-		String a = "<xml><ToUserName>oLUO5jm7NHn7cMTU6HYZXI52Eavw</ToUserName>"
-				+ "<FromUserName>gh_156fb851cf61</FromUserName><CreateTime>1452265616</CreateTime>"
-				+ "<MsgType>news</MsgType><ArticleCount>1</ArticleCount>"
-				+ "<Articles><item><Title>test</Title> <Description>pic-des-test</Description>"
-				+ "<PicUrl>http://img5.imgtn.bdimg.com/it/u=3596538801,2340004782&fm=15&gp=0.jpg</PicUrl>"
-				+ "<Url>www.baidu.com</Url></item></Articles></xml> ";
-		response.getWriter().write(a);
 	}
 
 }

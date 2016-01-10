@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+<title>Product</title>
+
+<!-- Bootstrap core CSS -->
+<link href="./resources/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Custom styles for this template -->
+<link href="./resources/css/dashboard.css" rel="stylesheet">
+</head>
+
+<body>
+
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+					aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">詹天娇微信电商平台</a>
+			</div>
+			<div id="navbar" class="navbar-collapse collapse">
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="#">Dashboard</a></li>
+					<li><a href="#">Settings</a></li>
+					<li><a href="#">Profile</a></li>
+					<li><a href="#">Help</a></li>
+				</ul>
+				<form class="navbar-form navbar-right">
+					<input type="text" class="form-control" placeholder="Search...">
+				</form>
+			</div>
+		</div>
+	</nav>
+
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-3 col-md-2 sidebar">
+				<ul class="nav nav-sidebar">
+					<li class="active"><a href="#">Overview <span
+							class="sr-only">(current)</span></a></li>
+					<li><a href="#">Reports</a></li>
+					<li><a href="#">Analytics</a></li>
+					<li><a href="#">Export</a></li>
+				</ul>
+				<ul class="nav nav-sidebar">
+					<li><a href="./product.html">商品管理</a></li>
+					<li><a href="">预留位</a></li>
+					<li><a href="">预留位</a></li>
+					<li><a href="">预留位</a></li>
+					<li><a href="">预留位</a></li>
+				</ul>
+				<ul class="nav nav-sidebar">
+					<li><a href="">预留位</a></li>
+					<li><a href="">预留位</a></li>
+					<li><a href="">预留位</a></li>
+					<li><a href="">预留位</a></li>
+				</ul>
+			</div>
+			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+				
+
+				<div class="row placeholders">
+					<div class="col-xs-6 col-sm-3 placeholder">
+						<h4><button type="button" class="btn btn-primary" data-target='#add_new_Modal' data-toggle='modal'>新增商品</button></h4>
+
+					</div>
+					<div class="col-xs-6 col-sm-3 placeholder">
+						<h4><button type="button" class="btn btn-primary" data-target='#myModa2' data-toggle='modal'>上传图片</button></h4>
+
+						<span class="text-muted">预留位</span>
+					</div>
+					<div class="col-xs-6 col-sm-3 placeholder">
+						<h4>Label2</h4>
+						<span class="text-muted">预留位</span>
+					</div>
+					<div class="col-xs-6 col-sm-3 placeholder">
+						<h4>Label3</h4>
+						<span class="text-muted">预留位</span>
+					</div>
+				</div>
+
+				<h2 class="sub-header">已上架商品</h2>
+				<div class="table-responsive">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th>编号</th>
+								<th>名称</th>
+								<th>类别</th>
+								<th>价格</th>
+								<th>库存</th>
+								<th>上架时间</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>1</td>
+								<td>Lv</td>
+								<td>Bag</td>
+								<td>10000</td>
+								<td>10</td>
+								<td>2016-1-9</td>
+								<td>＃</td>
+							</tr>
+							<tr>
+								<td>2</td>
+								<td>Gucci</td>
+								<td>Bag</td>
+								<td>10000</td>
+								<td>10</td>
+								<td>2016-1-9</td>
+								<td>＃</td>
+							</tr>
+							<tr>
+								<td>3</td>
+								<td>Channel</td>
+								<td>Bag</td>
+								<td>10000</td>
+								<td>10</td>
+								<td>2016-1-9</td>
+								<td>＃</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+ <!-- Add New Product start here....-->
+    <div class="modal fade" id="add_new_Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabe2">图片上传</h4>
+          </div>
+          <div class="modal-body">
+              <form class="form-horizontal" role="form" id="add_product_form" enctype="multipart/form-data" method="post" action="product/add">
+                <div class="form-group"  >
+                <label for="image_name" class="col-xs-2 control-label" >名称</label>
+                <div class="col-xs-4">
+                  <input type="text" class="form-control" id="product_name" name="product_name"/>
+                </div>
+              </div>
+                 <div class="form-group"  >
+                <label for="image_name" class="col-xs-2 control-label" >价格</label>
+                <div class="col-xs-4">
+                  <input type="text" class="form-control" id="product_price" name="product_price"/>
+                </div>
+              </div>
+                 <div class="form-group"  >
+                <label for="image_name" class="col-xs-2 control-label" >库存</label>
+                <div class="col-xs-4">
+                  <input type="text" class="form-control" id="product_count" name="product_count"/>
+                </div>
+              </div>
+                 <div class="form-group"  >
+                <label for="image_name" class="col-xs-2 control-label" >类别</label>
+                <div class="col-xs-4">
+                  <input type="text" class="form-control" id="product_category" name="product_category"/>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="image" class="col-xs-2 control-label">图片</label>
+                <div class="col-xs-4">
+                    <input type="file" id="product_image_url" name="product_image_url"/>
+                </div>
+              </div>
+                <div class="form-group">
+                <label for="image" class="col-xs-2 control-label">商品地址</label>
+                <div class="col-xs-4">
+                    <input type="text" id="product_url" name="product_url"/>
+                </div>
+              </div>
+               <div class="form-group">
+               
+                <div class="col-xs-4">
+                     <input type="submit" value="ok"/> 
+                </div>
+              </div>
+           </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="submit" class="btn btn-primary" id="upload" onclick='upload()'>确定</button>
+          </div>
+           
+        </div>
+      </div>
+    </div>
+    <!-- Add New Product ends here....-->
+
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script src="./resources/js/jquery-1.11.3.min.js"></script>
+	<script src="./resources/js/bootstrap.min.js"></script>
+</body>
+
+<script type="text/javascript">
+
+
+//upload function starts here
+function upload(){
+var product_name=$('#product_name').val();
+var product_price=$('#product_price').val();
+var product_count=$('#product_count').val();
+var product_category=$('#product_category').val();
+var product_image_url=$('#product_image_url').val();
+var product_url=$('#product_url').val();
+console.log(product_name);
+console.log(product_price);
+console.log(product_count);
+console.log(product_category);
+console.log(product_image_url);
+console.log(product_url);
+var f = document.getElementById("product_image_url");
+alert(f.value);
+}
+
+
+</script>
+
+
+</html>

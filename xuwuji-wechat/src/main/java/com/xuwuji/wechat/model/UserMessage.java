@@ -17,4 +17,5 @@ public interface UserMessage {
 
 	public String toString();
 
+	public String getFromUserName();
 }
