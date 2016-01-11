@@ -1,20 +1,17 @@
 package com.xuwuji.wechat.admin.controller;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.util.Date;
-import java.util.Map;
-import java.util.UUID;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
-
+import java.io.InputStream;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import com.xuwuji.wechat.admin.model.Product;
+import com.xuwuji.wechat.admin.service.QiNiuService;
+import com.xuwuji.wechat.admin.util.TimeUtil;
 
 /**
  * Controller for Product operation
@@ -23,26 +20,44 @@ import org.springframework.web.bind.annotation.RequestMethod;
  *
  *         Jan 9, 2016
  */
+
+@MultipartConfig
 @Controller
 public class ProductController {
+	private static final String SpaceUrl = "http://7xpxq6.com1.z0.glb.clouddn.com/";
 
 	/**
 	 * upload a new product
 	 * 
 	 * @throws IOException
+	 * @throws ServletException
 	 */
-	@RequestMapping(value = "product/add", method = RequestMethod.POST)
-	private void add(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		request.setCharacterEncoding("utf-8");
-		response.setCharacterEncoding("utf-8");
-		response.setContentType("text/html;charset=utf-8");
-		// request.setCharacterEncoding("gb2312");
-		BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream(), "gb2312"));
-		String line = null;
-		StringBuilder sb = new StringBuilder();
-		while ((line = br.readLine()) != null) {
-			sb.append(line);
+	@RequestMapping(value = "/product/add", method = RequestMethod.POST)
+
+	private void add(@RequestParam("product_name") String product_name,
+			@RequestParam("product_price") String product_price, @RequestParam("product_count") String product_count,
+			@RequestParam("product_category") String product_category,
+			@RequestParam("product_description") String product_description,
+			@RequestParam("product_url") String product_url, @RequestParam("file") MultipartFile file)
+					throws IOException, ServletException {
+		String ImageName = file.getOriginalFilename();
+		Product product = new Product();
+		product.setTitle(product_name);
+		product.setPrice(Double.valueOf(product_price));
+		product.setDescription(product_description);
+		product.setCount(Integer.valueOf(product_count));
+		product.setCategory(product_category);
+		product.setUrl(product_url);
+		product.setTime(TimeUtil.currentTime());
+		InputStream fileStream = file.getInputStream();
+		// check if the file name has already been in the space
+		if (QiNiuService.contains(ImageName)) {
+			ImageName = ImageName + "-1";
 		}
-		System.out.println(sb.toString());
+
+		QiNiuService.uploadImage(fileStream, ImageName);
+		product.setPicUrl(SpaceUrl + ImageName);
+		System.out.println(product.toString());
 	}
+
 }

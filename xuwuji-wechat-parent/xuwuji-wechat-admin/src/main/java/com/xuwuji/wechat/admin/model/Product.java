@@ -104,4 +104,11 @@ public class Product {
 		this.flag = flag;
 	}
 
+	@Override
+	public String toString() {
+		return "Product [id=" + id + ", title=" + title + ", description=" + description + ", category=" + category
+				+ ", price=" + price + ", count=" + count + ", PicUrl=" + PicUrl + ", url=" + url + ", time=" + time
+				+ ", flag=" + flag + "]";
+	}
+
 }
