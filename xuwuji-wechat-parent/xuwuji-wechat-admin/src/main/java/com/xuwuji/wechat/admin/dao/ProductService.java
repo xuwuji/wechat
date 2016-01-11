@@ -30,4 +30,28 @@ public class ProductService {
 		}
 	}
 
+	public static List<Product> getByCategory(String category) {
+		SqlSession sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
+		try {
+			ProductMapper mapper = sqlSession.getMapper(ProductMapper.class);
+			List<Product> list = mapper.getByCategory(category);
+			sqlSession.commit();
+			return list;
+		} finally {
+			sqlSession.close();
+		}
+	}
+
+	public static List<Product> getByNamePattern(String namePattern) {
+		SqlSession sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
+		try {
+			ProductMapper mapper = sqlSession.getMapper(ProductMapper.class);
+			List<Product> list = mapper.getByNamePattern(namePattern);
+			sqlSession.commit();
+			return list;
+		} finally {
+			sqlSession.close();
+		}
+	}
+
 }

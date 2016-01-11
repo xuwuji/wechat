@@ -6,8 +6,16 @@
 		<artifactId>xuwuji-wechat-parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>xuwuji-webchat</artifactId>
+	<artifactId>xuwuji-wechat</artifactId>
 	<packaging>war</packaging>
+
+	<dependencies>
+		<dependency>
+			<groupId>xuwuji</groupId>
+			<artifactId>xuwuji-wechat-admin</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
 	<build>
 		<plugins>
 			<plugin>

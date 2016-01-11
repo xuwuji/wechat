@@ -1,4 +1,4 @@
-package com.xuwuji.wechat.xml;
+package com.xuwuji.wechat.app.xml.output;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -9,13 +9,13 @@ import org.jdom2.Element;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.XMLOutputter;
 
-import com.xuwuji.wechat.model.ResultMessage;
-import com.xuwuji.wechat.model.result.ResultNewsArticle;
-import com.xuwuji.wechat.model.result.ResultNewsMessage;
-import com.xuwuji.wechat.model.result.ResultTextMessage;
+import com.xuwuji.wechat.app.model.ResultMessage;
+import com.xuwuji.wechat.app.model.result.ResultNewsArticle;
+import com.xuwuji.wechat.app.model.result.ResultNewsMessage;
+import com.xuwuji.wechat.app.model.result.ResultTextMessage;
 
 /**
- * Parse a result model to xml
+ * Parse a result model to xml format and output it through a output stream
  * 
  * @author wuxu
  * @time 2016Äê1ÔÂ8ÈÕ
@@ -26,6 +26,8 @@ public class OutPutXMLParser {
 	public static void parse(ResultMessage message, OutputStream out) throws IOException {
 		if (check(message).equals("text")) {
 			parseTextMessage((ResultTextMessage) message, out);
+		} else if (check(message).equals("news")) {
+			parseNewsMessage((ResultNewsMessage) message, out);
 		}
 	}
 
@@ -92,7 +94,7 @@ public class OutPutXMLParser {
 		Element articles = new Element("Articles");
 		for (int i = 0; i < Acount; i++) {
 			Element e = parseNewArticle(message.getArticles().get(i));
-			articles.addContent(e);
+			articles.addContent(e.detach());
 		}
 		root.addContent(count);
 		root.addContent(articles);

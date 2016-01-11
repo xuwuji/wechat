@@ -1,6 +1,8 @@
 package com.xuwuji.wechat.dao;
 
 import org.apache.ibatis.session.SqlSession;
+
+import com.xuwuji.wechat.admin.dao.MyBatisUtil;
 import com.xuwuji.wechat.model.user.UserTextMessage;
 
 public class UserMessageDao {

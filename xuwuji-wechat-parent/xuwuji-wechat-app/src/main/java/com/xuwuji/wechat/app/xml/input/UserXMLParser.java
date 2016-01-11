@@ -1,4 +1,4 @@
-package com.xuwuji.wechat.xml;
+package com.xuwuji.wechat.app.xml.input;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -10,8 +10,8 @@ import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 
-import com.xuwuji.wechat.model.UserMessage;
-import com.xuwuji.wechat.model.user.UserTextMessage;
+import com.xuwuji.wechat.app.model.UserMessage;
+import com.xuwuji.wechat.app.model.user.UserTextMessage;
 
 public class UserXMLParser {
 

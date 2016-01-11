@@ -1,7 +1,7 @@
-package com.xuwuji.wechat.service;
+package com.xuwuji.wechat.app.service.input;
 
-import com.xuwuji.wechat.model.result.ResultTextMessage;
-import com.xuwuji.wechat.model.user.UserTextMessage;
+import com.xuwuji.wechat.app.model.result.ResultTextMessage;
+import com.xuwuji.wechat.app.model.user.UserTextMessage;
 
 /**
  * Process Users' Nomal Text Message

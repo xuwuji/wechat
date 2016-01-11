@@ -1,4 +1,4 @@
-package com.xuwuji.wechat.dao;
+package com.xuwuji.wechat.app.dao;
 
 import java.io.IOException;
 import java.io.Reader;

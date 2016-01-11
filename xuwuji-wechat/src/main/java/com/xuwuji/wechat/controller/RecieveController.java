@@ -10,10 +10,11 @@ import com.xuwuji.wechat.json.TulingParser;
 import com.xuwuji.wechat.model.ResultMessage;
 import com.xuwuji.wechat.model.UserMessage;
 import com.xuwuji.wechat.model.user.UserTextMessage;
-import com.xuwuji.wechat.service.TextMessageService;
+import com.xuwuji.wechat.service.input.TextMessageService;
+import com.xuwuji.wechat.service.output.NewsService;
 import com.xuwuji.wechat.util.SHA1;
-import com.xuwuji.wechat.xml.OutPutXMLParser;
-import com.xuwuji.wechat.xml.UserXMLParser;
+import com.xuwuji.wechat.xml.input.UserXMLParser;
+import com.xuwuji.wechat.xml.output.OutPutXMLParser;
 import com.xuwuji.wewchat.tuling.TulingGetResult;
 
 import java.io.BufferedReader;
@@ -83,7 +84,7 @@ public class RecieveController {
 	@RequestMapping(value = "", method = RequestMethod.POST)
 	public void recieve(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		request.setCharacterEncoding("UTF-8");
-
+		OutputStream out = response.getOutputStream();
 		StringBuffer sb = new StringBuffer();
 		InputStream is = request.getInputStream();
 		InputStreamReader isr = new InputStreamReader(is, "UTF-8");
@@ -95,13 +96,15 @@ public class RecieveController {
 		String xml = sb.toString();
 		// System.out.println(xml);
 		UserMessage message = UserXMLParser.parse(sb.toString());
-		System.out.println("test:"+message.getContent()+"!!!!!");
+		System.out.println("test:" + message.getContent() + "!!!!!");
 		UserMessageDao.insertUserTextMessage((UserTextMessage) message);
 		String user = message.getFromUserName();
 
 		if (message != null && message.getMsgType().equals("text")) {
+
+			NewsService.getNewsResultMessage(message, "category", message.getContent(), out);
+
 			if (!message.getContent().equals("°ü")) {
-				OutputStream out = response.getOutputStream();
 				message.display();
 				String tulingresult = TulingGetResult.getResult(message.getContent());
 				System.out.println("tuling result:" + tulingresult);

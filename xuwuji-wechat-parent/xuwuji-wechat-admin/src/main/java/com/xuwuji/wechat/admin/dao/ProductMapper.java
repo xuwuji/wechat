@@ -20,4 +20,10 @@ public interface ProductMapper {
 	@Select("SELECT * FROM PRODUCT where flag=1")
 	public List<Product> getAllProduct();
 
+	@Select("SELECT * FROM PRODUCT where category=#{category} order by time DES")
+	public List<Product> getByCategory(String category);
+
+	@Select("SELECT * FROM PRODUCT where title like #{namePattern}")
+	public List<Product> getByNamePattern(String namePattern);
+
 }
