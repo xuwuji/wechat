@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.xuwuji.wechat.dao.UserMessageDao;
 import com.xuwuji.wechat.json.TulingParser;
 import com.xuwuji.wechat.model.ResultMessage;
 import com.xuwuji.wechat.model.UserMessage;
@@ -94,6 +95,8 @@ public class RecieveController {
 		String xml = sb.toString();
 		// System.out.println(xml);
 		UserMessage message = UserXMLParser.parse(sb.toString());
+		System.out.println("test:"+message.getContent()+"!!!!!");
+		UserMessageDao.insertUserTextMessage((UserTextMessage) message);
 		String user = message.getFromUserName();
 
 		if (message != null && message.getMsgType().equals("text")) {

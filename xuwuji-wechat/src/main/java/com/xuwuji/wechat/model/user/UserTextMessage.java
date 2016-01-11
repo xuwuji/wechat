@@ -11,6 +11,7 @@ import com.xuwuji.wechat.util.TimeUtil;
  */
 public class UserTextMessage implements UserMessage {
 
+	private int id;
 	// wechat developer count
 	private String ToUserName;
 	// openId for sender
@@ -37,6 +38,14 @@ public class UserTextMessage implements UserMessage {
 		MsgType = msgType;
 		Content = content;
 		this.MsgId = MsgId;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getToUserName() {
