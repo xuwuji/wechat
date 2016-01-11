@@ -54,7 +54,7 @@ public class ProductController {
 		InputStream fileStream = file.getInputStream();
 		// check if the file name has already been in the space
 		if (QiNiuService.contains(ImageName)) {
-			ImageName = ImageName + "-1";
+			ImageName = ImageName + TimeUtil.currentTime();
 		}
 
 		QiNiuService.uploadImage(fileStream, ImageName);
