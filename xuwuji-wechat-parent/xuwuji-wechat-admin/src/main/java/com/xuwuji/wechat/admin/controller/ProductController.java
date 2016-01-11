@@ -2,12 +2,15 @@ package com.xuwuji.wechat.admin.controller;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.xuwuji.wechat.admin.dao.ProductService;
@@ -35,8 +38,7 @@ public class ProductController {
 	 * @throws ServletException
 	 */
 	@RequestMapping(value = "/product/add", method = RequestMethod.POST)
-
-	private void add(@RequestParam("product_name") String product_name,
+	private String add(@RequestParam("product_name") String product_name,
 			@RequestParam("product_price") String product_price, @RequestParam("product_count") String product_count,
 			@RequestParam("product_category") String product_category,
 			@RequestParam("product_description") String product_description,
@@ -51,16 +53,32 @@ public class ProductController {
 		product.setCategory(product_category);
 		product.setUrl(product_url);
 		product.setTime(TimeUtil.currentTime());
+		product.setFlag(1);
 		InputStream fileStream = file.getInputStream();
 		// check if the file name has already been in the space
 		if (QiNiuService.contains(ImageName)) {
-			ImageName = ImageName + TimeUtil.currentTime();
+			ImageName = ImageName + "-" + TimeUtil.currentTime();
 		}
 
 		QiNiuService.uploadImage(fileStream, ImageName);
 		product.setPicUrl(SpaceUrl + ImageName);
 		System.out.println(product.toString());
 		ProductService.insertProduct(product);
+		return "redirect:/index.html";
+	}
+
+	/**
+	 * Get all active products
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/product/get", method = RequestMethod.GET)
+	public @ResponseBody List<Product> getAllProducts() {
+		List<Product> list = ProductService.getAllProduct();
+		for (Product p : list) {
+			System.out.println(p.toString());
+		}
+		return list;
 	}
 
 }

@@ -18,6 +18,7 @@ public class Product {
 	private String picUrl;
 	private String url;
 	private String time;
+	// 1->ok, 0->deleted
 	private int flag;
 
 	public Product() {

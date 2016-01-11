@@ -30,6 +30,7 @@ public class QiNiuService {
 	private static final String ACCESS_KEY = "LVLzJr-cSFr0fC9AQpqXh_USzy3fwNs4yzOcOb7F";
 	private static final String SECRET_KEY = "z4pgHYpQvJ8CYqoOxNiG9s_v8pQzql6drvbwNfT6";
 	private static final String BUCKET = "wechat";
+	private static HashSet<String> set = new HashSet<String>();
 
 	/**
 	 * ÉÏ´«Í¼Æ¬µ½ÆßÅ£ÔÆ´æ´¢
@@ -52,16 +53,11 @@ public class QiNiuService {
 		}
 	}
 
-	/**
-	 * check if the currently uploading image is in the space
-	 * 
-	 * @param ImageName
-	 */
-	public static boolean contains(String ImageName) {
+	public static HashSet<String> getSet() {
 		Mac mac = new Mac(ACCESS_KEY, SECRET_KEY);
 		RSFClient client = new RSFClient(mac);
 		String marker = "";
-		HashSet<String> set = new HashSet<String>();
+		// HashSet<String> set = new HashSet<String>();
 		List<ListItem> all = new ArrayList<ListItem>();
 		ListPrefixRet ret = null;
 		while (true) {
@@ -81,11 +77,20 @@ public class QiNiuService {
 			System.out.println(i.key);
 			set.add(i.key);
 		}
+		return set;
+	}
+
+	/**
+	 * check if the currently uploading image is in the space
+	 * 
+	 * @param ImageName
+	 */
+	public static boolean contains(String ImageName) {
+		set = getSet();
 		if (set.contains(ImageName)) {
 			return true;
 		} else {
 			return false;
 		}
-
 	}
 }
