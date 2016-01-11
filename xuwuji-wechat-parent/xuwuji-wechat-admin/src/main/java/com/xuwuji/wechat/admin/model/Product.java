@@ -15,7 +15,7 @@ public class Product {
 	private String category;
 	private double price;
 	private int count;
-	private String PicUrl;
+	private String picUrl;
 	private String url;
 	private String time;
 	private int flag;
@@ -73,11 +73,11 @@ public class Product {
 	}
 
 	public String getPicUrl() {
-		return PicUrl;
+		return picUrl;
 	}
 
 	public void setPicUrl(String picUrl) {
-		PicUrl = picUrl;
+		this.picUrl = picUrl;
 	}
 
 	public String getUrl() {
@@ -107,7 +107,7 @@ public class Product {
 	@Override
 	public String toString() {
 		return "Product [id=" + id + ", title=" + title + ", description=" + description + ", category=" + category
-				+ ", price=" + price + ", count=" + count + ", PicUrl=" + PicUrl + ", url=" + url + ", time=" + time
+				+ ", price=" + price + ", count=" + count + ", PicUrl=" + picUrl + ", url=" + url + ", time=" + time
 				+ ", flag=" + flag + "]";
 	}
 

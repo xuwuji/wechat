@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.xuwuji.wechat.admin.dao.ProductService;
 import com.xuwuji.wechat.admin.model.Product;
 import com.xuwuji.wechat.admin.service.QiNiuService;
 import com.xuwuji.wechat.admin.util.TimeUtil;
@@ -58,6 +60,7 @@ public class ProductController {
 		QiNiuService.uploadImage(fileStream, ImageName);
 		product.setPicUrl(SpaceUrl + ImageName);
 		System.out.println(product.toString());
+		ProductService.insertProduct(product);
 	}
 
 }
