@@ -12,8 +12,6 @@
 <link
 	href="${pageContext.request.contextPath}/resources/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet" />
-<script
-	src="${pageContext.request.contextPath}/resources/js/jquery-1.11.3.min.js"></script>
 
 <title>登录</title>
 </head>
@@ -43,7 +41,7 @@
 							<label for="lg_remember">remember</label>
 						</div>
 					</div>
-					<button type="submit" class="login-button" onclick='login()'>
+					<button  type='submit' class="login-button" >
 						<i class="fa fa-chevron-right" ></i>
 					</button>
 				</div>
@@ -61,15 +59,38 @@
 	</div>
 	</div>
 
+<script src="${pageContext.request.contextPath}/resources/js/jquery-1.11.3.min.js"></script>
 
 </body>
 <script type="text/javascript">
 
 function login(){
-
 var username=$('#username').val();
 var password=$('#password').val();
 var remember=$('#remember').val();
+
+$.ajax({
+	url: '${pageContext.request.contextPath}/login/validate',
+	type: 'POST',
+	dataType: 'application/x-www-form-urlencoded',
+	data: {username: username,
+		password:password,
+		remember:remember
+		},
+})
+.done(function(data) {
+	alert("dsadas");
+	console.log("success");
+	console.log("data");
+})
+.fail(function() {
+	console.log("error");
+})
+.always(function() {
+	console.log("complete");
+});
+
+
 console.log(username);
 console.log(password);
 console.log(remember);

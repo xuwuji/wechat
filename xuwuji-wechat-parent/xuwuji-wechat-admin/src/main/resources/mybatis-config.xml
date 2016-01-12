@@ -21,6 +21,7 @@
 
 	<mappers>
 		<mapper class='com.xuwuji.wechat.admin.dao.ProductMapper' />
+		<mapper class='com.xuwuji.wechat.admin.dao.AuthMapper' />
 	</mappers>
 
 </configuration>
