@@ -4,7 +4,8 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
-import com.xuwuji.wechat.admin.model.Product;
+import com.xuwuji.wechat.admin.util.MyBatisUtil;
+import com.xuwuji.wechat.common.model.Product;
 
 public class ProductService {
 	public static void insertProduct(Product product) {

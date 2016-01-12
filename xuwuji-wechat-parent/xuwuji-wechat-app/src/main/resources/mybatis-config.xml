@@ -22,6 +22,7 @@
 	<mappers>
 		<mapper class='com.xuwuji.wechat.app.dao.UserMessageMapper' />
 		<mapper class='com.xuwuji.wechat.app.dao.ProductMapper' />
+		<mapper class='com.xuwuji.wechat.app.dao.UserEventMapper' />
 	</mappers>
 
 </configuration>

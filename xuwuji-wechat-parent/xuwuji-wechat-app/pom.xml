@@ -13,7 +13,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>xuwuji</groupId>
-			<artifactId>xuwuji-wechat-admin</artifactId>
+			<artifactId>xuwuji-wechat-common</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>

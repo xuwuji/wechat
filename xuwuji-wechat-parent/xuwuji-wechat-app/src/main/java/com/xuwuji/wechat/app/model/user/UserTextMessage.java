@@ -1,13 +1,13 @@
 package com.xuwuji.wechat.app.model.user;
 
 import com.xuwuji.wechat.app.model.UserMessage;
-import com.xuwuji.wechat.app.util.TimeUtil;
+import com.xuwuji.wechat.common.util.TimeUtil;
 
 /**
  * model for normal text message from user
  * 
  * @author wuxu
- * @time 2016Äê1ÔÂ8ÈÕ
+ * @time 2016ï¿½ï¿½1ï¿½ï¿½8ï¿½ï¿½
  */
 public class UserTextMessage implements UserMessage {
 

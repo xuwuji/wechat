@@ -1,12 +1,10 @@
 package com.xuwuji.wechat.app.model;
 
-import com.xuwuji.wechat.app.util.TimeUtil;
-
 /**
  * The Interface for users' input message
  * 
  * @author wuxu
- * @time 2016Äê1ÔÂ8ÈÕ
+ * @time 2016ï¿½ï¿½1ï¿½ï¿½8ï¿½ï¿½
  */
 public interface UserMessage {
 	public void display();

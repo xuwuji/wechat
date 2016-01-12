@@ -1,8 +1,12 @@
-package com.xuwuji.wechat.app.dao;
+package com.xuwuji.wechat.app.service;
 
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
+
+import com.xuwuji.wechat.app.dao.ProductMapper;
+import com.xuwuji.wechat.app.util.MyBatisUtil;
+import com.xuwuji.wechat.common.model.Product;
 
 public class ProductService {
 	public static void insertProduct(Product product) {

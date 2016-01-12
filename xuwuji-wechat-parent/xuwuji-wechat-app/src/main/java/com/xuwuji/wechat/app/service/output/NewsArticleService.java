@@ -2,10 +2,9 @@ package com.xuwuji.wechat.app.service.output;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.xuwuji.wechat.app.dao.Product;
-import com.xuwuji.wechat.app.dao.ProductService;
 import com.xuwuji.wechat.app.model.result.ResultNewsArticle;
+import com.xuwuji.wechat.app.service.ProductService;
+import com.xuwuji.wechat.common.model.Product;
 
 /**
  * Service for Articles of A News Result Message

@@ -1,4 +1,4 @@
-package com.xuwuji.wechat.app.dao;
+package com.xuwuji.wechat.common.model;
 
 /**
  * Model for Normal Product

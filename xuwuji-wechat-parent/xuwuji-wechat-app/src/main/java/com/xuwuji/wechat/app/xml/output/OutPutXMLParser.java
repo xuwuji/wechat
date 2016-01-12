@@ -18,20 +18,20 @@ import com.xuwuji.wechat.app.model.result.ResultTextMessage;
  * Parse a result model to xml format and output it through a output stream
  * 
  * @author wuxu
- * @time 2016Äê1ÔÂ8ÈÕ
+ * @time 2016ï¿½ï¿½1ï¿½ï¿½8ï¿½ï¿½
  */
 public class OutPutXMLParser {
 	private static SAXBuilder builder = new SAXBuilder();
 
 	public static void parse(ResultMessage message, OutputStream out) throws IOException {
-		if (check(message).equals("text")) {
+		if (getType(message).equals("text")) {
 			parseTextMessage((ResultTextMessage) message, out);
-		} else if (check(message).equals("news")) {
+		} else if (getType(message).equals("news")) {
 			parseNewsMessage((ResultNewsMessage) message, out);
 		}
 	}
 
-	private static String check(ResultMessage message) {
+	private static String getType(ResultMessage message) {
 		return message.getMsgType();
 	}
 
@@ -70,7 +70,7 @@ public class OutPutXMLParser {
 
 		serializer.output(doc, out);
 		// byte[] lens = baos.toByteArray();
-		// String result = new String(lens);// result½á¹ûÏÔÊ¾Õý³££ºº¬ÖÐÎÄÎÞÂÒÂë
+		// String result = new String(lens);// resultï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		// String str = baos.toString();
 		// return result;
 	}

@@ -8,8 +8,7 @@ import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
-
-import com.xuwuji.wechat.admin.model.Product;
+import com.xuwuji.wechat.common.model.Product;
 
 public interface ProductMapper {
 

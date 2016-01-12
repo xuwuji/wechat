@@ -1,4 +1,4 @@
-package com.xuwuji.wechat.app.xml.input;
+package com.xuwuji.wechat.app.xml.input.message;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -13,20 +13,19 @@ import org.jdom2.input.SAXBuilder;
 import com.xuwuji.wechat.app.model.UserMessage;
 import com.xuwuji.wechat.app.model.user.UserTextMessage;
 
-public class UserXMLParser {
+public class UserMessageXMLParser {
 
 	public static SAXBuilder builder = new SAXBuilder();
 
 	public static UserMessage parse(String input) throws JDOMException, IOException {
-		if (checkType(input).equals("text")) {
+		if (getType(input).equals("text")) {
 			return ParseTextMessage(input);
 		} else {
 			return null;
 		}
 	}
 
-	public static String checkType(String input) throws JDOMException, IOException {
-		// SAXBuilder builder = new SAXBuilder();
+	public static String getType(String input) throws JDOMException, IOException {
 		InputStream stream = new ByteArrayInputStream(input.getBytes("UTF-8"));
 		Document document = (Document) builder.build(stream);
 		Element rootNode = document.getRootElement();

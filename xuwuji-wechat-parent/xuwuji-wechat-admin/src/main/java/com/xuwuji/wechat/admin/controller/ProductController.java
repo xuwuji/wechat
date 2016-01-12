@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.xuwuji.wechat.admin.dao.ProductService;
-import com.xuwuji.wechat.admin.model.Product;
 import com.xuwuji.wechat.admin.service.QiNiuService;
-import com.xuwuji.wechat.admin.util.TimeUtil;
+import com.xuwuji.wechat.common.model.Product;
+import com.xuwuji.wechat.common.util.TimeUtil;
 
 /**
  * Controller for Product operation
@@ -57,7 +57,7 @@ public class ProductController {
 		InputStream fileStream = file.getInputStream();
 		// check if the file name has already been in the space
 		if (QiNiuService.contains(ImageName)) {
-			ImageName = ImageName + "-" + TimeUtil.currentTime();
+			ImageName = ImageName + "-" + TimeUtil.recurrentTime();
 		}
 
 		QiNiuService.uploadImage(fileStream, ImageName);

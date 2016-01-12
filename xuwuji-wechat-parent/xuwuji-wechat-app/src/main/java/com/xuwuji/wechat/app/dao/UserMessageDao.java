@@ -3,6 +3,7 @@ package com.xuwuji.wechat.app.dao;
 import org.apache.ibatis.session.SqlSession;
 
 import com.xuwuji.wechat.app.model.user.UserTextMessage;
+import com.xuwuji.wechat.app.util.MyBatisUtil;
 
 public class UserMessageDao {
 

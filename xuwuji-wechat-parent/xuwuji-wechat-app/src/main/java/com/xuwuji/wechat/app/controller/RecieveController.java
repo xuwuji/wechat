@@ -11,10 +11,11 @@ import com.xuwuji.wechat.app.model.ResultMessage;
 import com.xuwuji.wechat.app.model.UserMessage;
 import com.xuwuji.wechat.app.model.user.UserTextMessage;
 import com.xuwuji.wechat.app.service.input.TextMessageService;
+import com.xuwuji.wechat.app.service.input.UserInputService;
 import com.xuwuji.wechat.app.service.output.NewsService;
 import com.xuwuji.wechat.app.tuling.TulingGetResult;
 import com.xuwuji.wechat.app.util.SHA1;
-import com.xuwuji.wechat.app.xml.input.UserXMLParser;
+import com.xuwuji.wechat.app.xml.input.message.UserMessageXMLParser;
 import com.xuwuji.wechat.app.xml.output.OutPutXMLParser;
 
 import java.io.BufferedReader;
@@ -84,6 +85,9 @@ public class RecieveController {
 	public void recieve(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		request.setCharacterEncoding("UTF-8");
 		OutputStream out = response.getOutputStream();
+		/**
+		 * 1. get the input message as a string
+		 */
 		StringBuffer sb = new StringBuffer();
 		InputStream is = request.getInputStream();
 		InputStreamReader isr = new InputStreamReader(is, "UTF-8");
@@ -92,11 +96,19 @@ public class RecieveController {
 		while ((s = br.readLine()) != null) {
 			sb.append(s);
 		}
-		String xml = sb.toString();
-		// System.out.println(xml);
-		UserMessage message = UserXMLParser.parse(sb.toString());
-		System.out.println("test:" + message.getContent() + "!!!!!");
-		UserMessageDao.insertUserTextMessage((UserTextMessage) message);
+		/**
+		 * 2. parse the message from xml format to pojo
+		 */
+		UserMessage message = UserMessageXMLParser.parse(sb.toString());
+
+		/**
+		 * 3. store the input message into DB based on the input type
+		 */
+		UserInputService.log(sb.toString());
+
+		/**
+		 * 4. process the input message and return result to user
+		 */
 		String user = message.getFromUserName();
 
 		if (message != null && message.getMsgType().equals("text")) {
@@ -105,7 +117,6 @@ public class RecieveController {
 
 			} else {
 				NewsService.getNewsResultMessage(message, "name", message.getContent(), out);
-
 			}
 
 			if (!message.getContent().equals("包")) {

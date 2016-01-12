@@ -1,4 +1,4 @@
-package com.xuwuji.wechat.app.util;
+package com.xuwuji.wechat.common.util;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -10,12 +10,21 @@ public class TimeUtil {
 		return DateTimeFormat.forPattern("yyyy-MM-dd HH:mm");
 	}
 
+	public static DateTimeFormatter getDateFormatter1() {
+		return DateTimeFormat.forPattern("yyyy-MM-dd-HH:mm");
+	}
+
 	public static DateTimeFormatter getSimpleDateFormatter() {
 		return DateTimeFormat.forPattern("yyyy-MM-dd");
 	}
 
 	public static String getDateTime(DateTime time) {
 		String result = time.toString(getDateFormatter());
+		return result;
+	}
+
+	public static String getDateTime1(DateTime time) {
+		String result = time.toString(getDateFormatter1());
 		return result;
 	}
 
@@ -27,5 +36,15 @@ public class TimeUtil {
 	public static String converUnix(long unixTime) {
 		DateTime time = new DateTime(unixTime * 1000L);
 		return getDateTime(time);
+	}
+
+	public static String currentTime() {
+		// TODO Auto-generated method stub
+		return getDateTime(DateTime.now());
+	}
+
+	public static String recurrentTime() {
+		// TODO Auto-generated method stub
+		return getDateTime1(DateTime.now());
 	}
 }
