@@ -1,96 +1,79 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Sample Spring Interceptor</title>
-<link rel="stylesheet" href="css/screen.css" type="text/css" media="screen" title="default" />
-<link rel="stylesheet" href="jquery-ui-1.9.2/css/smoothness/jquery-ui-1.9.2.custom.min.css" type="text/css" media="screen" title="default" />
-<script src="jquery-ui-1.9.2/js/jquery-1.8.3.js" type="text/javascript"></script>
-<script src="jquery-ui-1.9.2/js/jquery-ui-1.9.2.custom.min.js" type="text/javascript"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link href="${pageContext.request.contextPath}/resources/css/login.css"
+	rel="stylesheet" />
+<link
+	href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css"
+	rel="stylesheet" />
+<link
+	href="${pageContext.request.contextPath}/resources/font-awesome/css/font-awesome.min.css"
+	rel="stylesheet" />
+<script
+	src="${pageContext.request.contextPath}/resources/js/jquery-1.11.3.min.js"></script>
+
+<title>登录</title>
 </head>
-<body id="login-bg"> 
- 
-<!-- Start: login-holder -->
-<div id="login-holder">
+<body>
+	<div class="text-center" style="padding: 50px 0">
 
-	<!-- start logo -->
-	<div id="logo-login">
-		<a href="index.html"><img src="images/shared/logo.png" width="156" height="40" alt="" /></a>
-	</div>
-	<!-- end logo -->
-	
-	<div class="clear"></div>
-	
-	<!--  start loginbox ................................................................................. -->
-	<div id="loginbox">
-	
-	<!--  start login-inner -->
-	<div id="login-inner">
-	<c:if test="${error}">
-		<!--  start message-red -->
-	 	<div class="clear"></div>
-					<div id="message-red">
-					<table border="0" width="100%" cellpadding="0" cellspacing="0">
-					<tr>
-						<td class="red-left">Wrong username or password !</td>
-						<td class="red-right"><a class="close-red"><img src="images/table/icon_close_red.gif"   alt="" /></a></td>
-					</tr>
-					</table>
+		<div class="logo">login</div>
+		<!-- login Form Starts Here ....-->
+		<div class="login-form-1">
+			<form id="login-form" class="text-left" method='post' action='${pageContext.request.contextPath}/login/validate'>
+				<div class="login-form-main-message"></div>
+				<div class="main-login-form">
+					<div class="login-group">
+						<div class="form-group">
+							<label for="lg_username" class="sr-only">Username</label>
+							 <input
+								type="text" class="form-control" id="username"
+								name="username" placeholder="username">
+						</div>
+						<div class="form-group">
+							<label for="lg_password" class="sr-only">Password</label> <input
+								type="password" class="form-control" id="password"
+								name="password" placeholder="password">
+						</div>
+						<div class="form-group login-group-checkbox">
+							<input type="checkbox" id="lg_remember" name="remember">
+							<label for="lg_remember">remember</label>
+						</div>
+					</div>
+					<button type="submit" class="login-button" onclick='login()'>
+						<i class="fa fa-chevron-right" ></i>
+					</button>
+				</div>
+				<div class="etc-login-form">
+					<p>
+						forgot your password? <a href="#">click here</a>
+					</p>
+					<p>
+						new user? <a href="#">create new account</a>
+					</p>
+				</div>
+			</form>
 		</div>
-		<!--  end message-red -->
-	</c:if>
-	
-	<form:form action="login.do" method="post"  modelAttribute="loginAttribute">
-		<table border="0" cellpadding="0" cellspacing="0">
-		<tr>
-			<th>Username</th>
-			<td><form:input type="text"  class="login-inp" path="username" /></td>
-		</tr>
-		<tr>
-			<th>Password</th>
-			<td><form:input type="password" value="************"  onfocus="this.value=''" class="login-inp" path="password"/></td>
-		</tr>
-		<tr>
-			<th></th>
-			<td valign="top"><input type="checkbox" class="checkbox-size" id="login-check" /><label for="login-check">Remember me</label></td>
-		</tr>
-		<tr>
-			<th></th>
-			<td><input type="submit" class="submit-login"  /></td>
-		</tr>
-		</table>
-		</form:form>
+		<!-- login Form Ends Here ....-->
 	</div>
- 	<!--  end login-inner -->
-	<div class="clear"></div>
- </div>
- <!--  end loginbox -->
- 
-	<!--  start forgotbox ................................................................................... -->
-	<div id="forgotbox">
-		<div id="forgotbox-text">Please send us your email and we'll reset your password.</div>
-		<!--  start forgot-inner -->
-		<div id="forgot-inner">
-		<table border="0" cellpadding="0" cellspacing="0">
-		<tr>
-			<th>Email address:</th>
-			<td><input type="text" value=""   class="login-inp" /></td>
-		</tr>
-		<tr>
-			<th> </th>
-			<td><input type="button" class="submit-login"  /></td>
-		</tr>
-		</table>
-		</div>
-		<!--  end forgot-inner -->
-		<div class="clear"></div>
-		<a href="" class="back-login">Back to login</a>
 	</div>
-	<!--  end forgotbox -->
 
-</div>
-<!-- End: login-holder -->
+
 </body>
+<script type="text/javascript">
+
+function login(){
+
+var username=$('#username').val();
+var password=$('#password').val();
+var remember=$('#remember').val();
+console.log(username);
+console.log(password);
+console.log(remember);
+}
+
+</script>
 </html>
