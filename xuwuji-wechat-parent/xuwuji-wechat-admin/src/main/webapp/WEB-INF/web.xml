@@ -4,9 +4,6 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
 	id="WebApp_ID" version="3.1">
 	<display-name>xuwuji-wechat-admin</display-name>
-	<welcome-file-list>
-		<welcome-file>login.html</welcome-file>
-	</welcome-file-list>
 	<servlet>
 		<servlet-name>xuwuji-wechat-admin</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -16,4 +13,11 @@
 		<servlet-name>xuwuji-wechat-admin</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
+
+	<!-- Define the default session timeout for your application, in minutes. 
+		From a servlet or JSP page, you can modify the timeout for a particular session 
+		dynamically by using HttpSession.getMaxInactiveInterval(). -->
+	<session-config>
+		<session-timeout>30</session-timeout>    <!-- 30 minutes -->
+	</session-config>
 </web-app>

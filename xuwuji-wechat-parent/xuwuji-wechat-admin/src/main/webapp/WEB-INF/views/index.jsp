@@ -29,11 +29,11 @@
 					class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="#">詹天骄微信电商平台</a>
+			<a class="navbar-brand" href="#">微信电商平台</a>
 		</div>
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="#">Dashboard</a></li>
+				<li><a href="${pageContext.request.contextPath}/logout">退出</a></li>
 				<li><a href="#">Settings</a></li>
 				<li><a href="#">Profile</a></li>
 				<li><a href="#">Help</a></li>

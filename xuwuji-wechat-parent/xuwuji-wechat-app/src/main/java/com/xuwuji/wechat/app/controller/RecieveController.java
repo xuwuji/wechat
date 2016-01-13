@@ -115,8 +115,16 @@ public class RecieveController {
 			if (message.getContent().equals("bag")) {
 				NewsService.getNewsResultMessage(message, "category", message.getContent(), out);
 
-			} else {
+			} else if (message.getContent().equals("lv")) {
 				NewsService.getNewsResultMessage(message, "name", message.getContent(), out);
+			} else {
+				message.display();
+				String tulingresult = TulingGetResult.getResult(message.getContent());
+				System.out.println("tuling result:" + tulingresult);
+				ResultMessage rm = TextMessageService.process((UserTextMessage) message);
+				tulingresult = TulingParser.getNormalText(tulingresult);
+				rm.setContent(tulingresult);
+				OutPutXMLParser.parse(rm, out);
 			}
 
 			if (!message.getContent().equals("包")) {

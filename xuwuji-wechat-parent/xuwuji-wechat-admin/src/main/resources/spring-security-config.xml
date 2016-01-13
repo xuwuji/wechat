@@ -1,0 +1,5 @@
+<http auto-config="true">
+	<remember-me />
+	<authentication-manager erase-credentials="false">
+	</authentication-manager>
+</http>

@@ -15,13 +15,13 @@
 
 <title>登录</title>
 </head>
-<body>
+<body >
 	<div class="text-center" style="padding: 50px 0">
 
 		<div class="logo">login</div>
 		<!-- login Form Starts Here ....-->
 		<div class="login-form-1">
-			<form id="login-form" class="text-left" method='post' action='${pageContext.request.contextPath}/login/validate'>
+			<form id="login-form" class="text-left" method='post' action='${pageContext.request.contextPath}/login/validate' >
 				<div class="login-form-main-message"></div>
 				<div class="main-login-form">
 					<div class="login-group">
@@ -37,7 +37,7 @@
 								name="password" placeholder="password">
 						</div>
 						<div class="form-group login-group-checkbox">
-							<input type="checkbox" id="lg_remember" name="remember">
+							<input type="checkbox" id="lg_remember" name="remember_me">
 							<label for="lg_remember">remember</label>
 						</div>
 					</div>
