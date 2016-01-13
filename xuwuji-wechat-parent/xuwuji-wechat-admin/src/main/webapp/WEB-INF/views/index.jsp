@@ -48,14 +48,14 @@
 		<div class="row">
 			<div class="col-sm-3 col-md-2 sidebar">
 				<ul class="nav nav-sidebar">
-					<li class="active"><a href="#">Overview <span
+					<li ><a href="#">Overview <span
 							class="sr-only">(current)</span></a></li>
 					<li><a href="#">Reports</a></li>
 					<li><a href="#">Analytics</a></li>
 					<li><a href="#">Export</a></li>
 				</ul>
 				<ul class="nav nav-sidebar">
-					<li><a href="./product.html">商品管理</a></li>
+					<li class="active"><a href="#">商品管理</a></li>
 					<li><a href="">预留位</a></li>
 					<li><a href="">预留位</a></li>
 					<li><a href="">预留位</a></li>
