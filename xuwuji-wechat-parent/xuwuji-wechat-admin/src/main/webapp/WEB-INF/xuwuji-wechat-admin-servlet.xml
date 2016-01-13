@@ -19,6 +19,14 @@
 		<mvc:mapping path="/**" />
 	</mvc:cors>
 
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/index" />
+			<mvc:mapping path="/index/**" />
+			<!-- <mvc:exclude-mapping path="/permission/pubsvc/**" /> -->
+			<bean class="com.xuwuji.wechat.admin.interceptor.AuthInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>
 
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
