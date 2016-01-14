@@ -33,7 +33,7 @@ public class QiNiuService {
 	private static HashSet<String> set = new HashSet<String>();
 
 	/**
-	 * ÉÏ´«Í¼Æ¬µ½ÆßÅ£ÔÆ´æ´¢
+	 * 
 	 * 
 	 * @param reader
 	 * @param fileName
