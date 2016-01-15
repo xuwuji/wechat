@@ -1,6 +1,8 @@
 package com.xuwuji.wechat.admin.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -24,5 +26,8 @@ public interface ProductMapper {
 
 	@Select("SELECT * FROM PRODUCT where title like #{namePattern}")
 	public List<Product> getByNamePattern(String namePattern);
+
+	@Select("SELECT category,count(category) as count FROM PRODUCT group by category")
+	public List<HashMap<String, Object>> groupByCategory();
 
 }

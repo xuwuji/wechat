@@ -1,6 +1,8 @@
 package com.xuwuji.wechat.admin.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -48,6 +50,18 @@ public class ProductService {
 		try {
 			ProductMapper mapper = sqlSession.getMapper(ProductMapper.class);
 			List<Product> list = mapper.getByNamePattern(namePattern);
+			sqlSession.commit();
+			return list;
+		} finally {
+			sqlSession.close();
+		}
+	}
+
+	public static List<HashMap<String, Object>> groupByCategory() {
+		SqlSession sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
+		try {
+			ProductMapper mapper = sqlSession.getMapper(ProductMapper.class);
+			List<HashMap<String, Object>> list = mapper.groupByCategory();
 			sqlSession.commit();
 			return list;
 		} finally {

@@ -16,6 +16,16 @@
 <link
 	href="${pageContext.request.contextPath}/resources/css/dashboard.css"
 	rel="stylesheet">
+<script
+	src="${pageContext.request.contextPath}/resources/js/jquery-1.11.3.min.js"></script>
+
+<script
+	src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/js/highchart/highcharts.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/js/highchart/modules/exporting.js"></script>
+
 <title>Insert title here</title>
 </head>
 <body>
@@ -48,8 +58,7 @@
 		<div class="row">
 			<div class="col-sm-3 col-md-2 sidebar">
 				<ul class="nav nav-sidebar">
-					<li ><a href="#">Overview <span
-							class="sr-only">(current)</span></a></li>
+					<li><a href="#">Overview <span class="sr-only">(current)</span></a></li>
 					<li><a href="#">Reports</a></li>
 					<li><a href="#">Analytics</a></li>
 					<li><a href="#">Export</a></li>
@@ -68,6 +77,11 @@
 					<li><a href="">预留位</a></li>
 				</ul>
 			</div>
+
+
+
+
+
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 				<div class="row placeholders">
 					<div class="col-xs-6 col-sm-3 placeholder">
@@ -92,6 +106,11 @@
 						<span class="text-muted">预留位</span>
 					</div>
 				</div>
+
+				<div id="pie_container"
+					style="min-width: 300px; height: 300px; max-width: 600px; margin: 0 auto"></div>
+
+
 				<h2 class="sub-header">已上架商品</h2>
 				<div class="table-responsive">
 					<table class="table table-striped">
@@ -124,7 +143,7 @@
 				<div class="modal-body">
 					<form class="form-horizontal" role="form" id="add_product_form"
 						enctype="multipart/form-data" method="POST"
-						action="api/product/add">
+						action="${pageContext.request.contextPath}/product/add">
 						<div class="form-group">
 							<label for="image_name" class="col-xs-2 control-label">名称</label>
 							<div class="col-xs-4">
@@ -184,12 +203,67 @@
 	</div>
 	<!-- Add New Product ends here....-->
 	<!-- Placed at the end of the document so the pages load faster -->
-	<script
-		src="${pageContext.request.contextPath}/resources/js/jquery-1.11.3.min.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
 </body>
 <script type="text/javascript">
+	$(document).ready(function() {
+		groupByCategory();
+	});
+
+	function groupByCategory() {
+		var array = Array();
+		$
+				.getJSON(
+						'${pageContext.request.contextPath}/product/category',
+						function(cdata) {
+							console.log(cdata);
+							for (key in cdata) {
+								array.push([ key, cdata[key] ])
+							}
+
+							$.each(cdata, function(i, point) {
+								point.y = point.data;
+							});
+							$(function() {
+								$('#pie_container')
+										.highcharts(
+												{
+													chart : {
+														plotBackgroundColor : null,
+														plotBorderWidth : null,
+														plotShadow : false,
+														type : 'pie'
+													},
+													title : {
+														text : 'Product'
+													},
+													tooltip : {
+														pointFormat : '{series.name}: <b>{point.percentage:.1f}%</b>'
+													},
+													plotOptions : {
+														pie : {
+															allowPointSelect : true,
+															cursor : 'pointer',
+															dataLabels : {
+																enabled : true,
+																format : '<b>{point.name}</b>: {point.percentage:.1f} %',
+																style : {
+																	color : (Highcharts.theme && Highcharts.theme.contrastTextColor)
+																			|| 'black'
+																}
+															}
+														}
+													},
+													series : [ {
+														name : 'Brands',
+														colorByPoint : true,
+														data : array
+													} ]
+												});
+							});
+						});
+
+	}
+
 	//String buffer function starts here...
 	function StringBuffer() {
 		this.__strings__ = [];
@@ -203,29 +277,25 @@
 	//String buffer function ends here...
 
 	//show the active products starts here...
-	$
-			.getJSON(
-					'${pageContext.request.contextPath}/product/get',
-					function(data) {
-						var line = new StringBuffer();
-						$.each(data, function(i, record) {
-							var id = record.id;
-							var title = record.title;
-							var category = record.category;
-							var price = record.price;
-							var count = record.count;
-							var time = record.time;
-							//console.log(id);
-							line.append('<tr><td>' + id + '</td><td>' + title
-									+ '</td><td>' + category + '</td><td>'
-									+ price + '</td><td>' + count + '</td><td>'
-									+ time + '</td><td>#</td></tr>');
-						});
+	$.getJSON('${pageContext.request.contextPath}/product/get', function(data) {
+		var line = new StringBuffer();
+		$.each(data, function(i, record) {
+			var id = record.id;
+			var title = record.title;
+			var category = record.category;
+			var price = record.price;
+			var count = record.count;
+			var time = record.time;
+			//console.log(id);
+			line.append('<tr><td>' + id + '</td><td>' + title + '</td><td>'
+					+ category + '</td><td>' + price + '</td><td>' + count
+					+ '</td><td>' + time + '</td><td>#</td></tr>');
+		});
 
-						var $table = $('#result_table');
-						$table.append(line.toString());
+		var $table = $('#result_table');
+		$table.append(line.toString());
 
-					});
+	});
 	//show the active products ends here...
 
 	//add a new product function starts here

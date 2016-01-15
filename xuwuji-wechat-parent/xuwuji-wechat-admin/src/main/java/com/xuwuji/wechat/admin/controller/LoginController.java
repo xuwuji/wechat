@@ -90,7 +90,7 @@ public class LoginController {
 
 		System.out.println(username);
 		System.out.println(password);
-		Integer authority = AuthService.validate(username, password);
+		Integer authority = this.validate(username, password);
 		System.out.println(authority);
 		ModelAndView model = new ModelAndView();
 		if (authority == null) {

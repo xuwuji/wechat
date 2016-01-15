@@ -2,7 +2,11 @@ package com.xuwuji.wechat.admin.controller;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -64,7 +68,7 @@ public class ProductController {
 		product.setPicUrl(SpaceUrl + ImageName);
 		System.out.println(product.toString());
 		ProductService.insertProduct(product);
-		return "redirect:/index.html";
+		return "redirect:/index";
 	}
 
 	/**
@@ -79,6 +83,31 @@ public class ProductController {
 			System.out.println(p.toString());
 		}
 		return list;
+	}
+
+	/**
+	 * return data group by category
+	 */
+	@RequestMapping(value = "/product/category", method = RequestMethod.GET)
+	public @ResponseBody HashMap<String, Integer> groupByCategory() {
+		List<HashMap<String, Object>> categories = new ArrayList<HashMap<String, Object>>();
+		categories = ProductService.groupByCategory();
+		HashMap<String, Integer> result = new HashMap<String, Integer>();
+		for (HashMap<String, Object> map : categories) {
+			String name = "";
+			Integer count = 0;
+			for (Entry<String, Object> entry : map.entrySet()) {
+				System.out.println(entry.getKey() + ":" + entry.getValue());
+				if (entry.getKey().equals("category")) {
+					name = (String) entry.getValue();
+				}
+				if (entry.getKey().equals("count")) {
+					count = Integer.valueOf(String.valueOf(entry.getValue()));
+				}
+			}
+			result.put(name, count);
+		}
+		return result;
 	}
 
 }
