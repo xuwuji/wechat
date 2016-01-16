@@ -10,7 +10,10 @@ import java.util.Map.Entry;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.xuwuji.wechat.admin.dao.ProductService;
 import com.xuwuji.wechat.admin.service.QiNiuService;
+import com.xuwuji.wechat.admin.util.Price;
 import com.xuwuji.wechat.common.model.Product;
 import com.xuwuji.wechat.common.util.TimeUtil;
 
@@ -34,6 +38,8 @@ import com.xuwuji.wechat.common.util.TimeUtil;
 @Controller
 public class ProductController {
 	private static final String SpaceUrl = "http://7xpxq6.com1.z0.glb.clouddn.com/";
+	@Autowired
+	private ProductService service;
 
 	/**
 	 * upload a new product
@@ -108,6 +114,36 @@ public class ProductController {
 			result.put(name, count);
 		}
 		return result;
+	}
+
+	/**
+	 * return data group by price
+	 */
+	@RequestMapping(value = "/product/price", method = RequestMethod.GET)
+	public @ResponseBody HashMap<String, Integer> groupByPrice() {
+
+		HashMap<String, Integer> result = new HashMap<String, Integer>();
+		result.put(Price.CHEAP.getMessage(), 0);
+		result.put(Price.MEDIUM.getMessage(), 0);
+		result.put(Price.DEAR.getMessage(), 0);
+
+		List<Product> list = ProductService.getAllProduct();
+		for (Product p : list) {
+			if (p.getPrice() <= 500) {
+				result.put(Price.CHEAP.getMessage(), result.get(Price.CHEAP.getMessage()) + 1);
+			} else if (p.getPrice() > 500 && p.getPrice() <= 100) {
+				result.put(Price.MEDIUM.getMessage(), result.get(Price.MEDIUM.getMessage()) + 1);
+			} else {
+				result.put(Price.MEDIUM.getMessage(), result.get(Price.DEAR.getMessage()) + 1);
+			}
+		}
+		return result;
+	}
+
+	@RequestMapping(value = "/product/delete/{id}", method = RequestMethod.GET)
+	public String delete(@PathVariable("id") Integer product_id) {
+		service.deleteById(product_id);
+		return "redirect:/index";
 	}
 
 }

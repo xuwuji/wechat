@@ -3,12 +3,16 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-<title>Product</title>
-<!-- Bootstrap core CSS -->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Order</title>
+<script
+	src="${pageContext.request.contextPath}/resources/js/jquery-1.11.3.min.js"></script>
+
+<script
+	src="${pageContext.request.contextPath}/resources/bootstrapformhelpers/js/bootstrap-formhelpers.js"></script>
+<link
+	href="${pageContext.request.contextPath}/resources/bootstrapformhelpers/css/bootstrap-formhelpers.css"
+	rel="stylesheet" media="screen">
 <link
 	href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css"
 	rel="stylesheet">
@@ -17,16 +21,12 @@
 	href="${pageContext.request.contextPath}/resources/css/dashboard.css"
 	rel="stylesheet">
 <script
-	src="${pageContext.request.contextPath}/resources/js/jquery-1.11.3.min.js"></script>
-
-<script
 	src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
 <script
 	src="${pageContext.request.contextPath}/resources/js/highchart/highcharts.js"></script>
 <script
 	src="${pageContext.request.contextPath}/resources/js/highchart/modules/exporting.js"></script>
 
-<title>Insert title here</title>
 </head>
 <body>
 	<nav class="navbar navbar-inverse navbar-fixed-top">
@@ -64,8 +64,8 @@
 					<li><a href="#">Export</a></li>
 				</ul>
 				<ul class="nav nav-sidebar">
-					<li class="active"><a href="#">商品管理</a></li>
-					<li><a href="${pageContext.request.contextPath}/order/index">订单管理</a></li>
+					<li><a href="${pageContext.request.contextPath}/index">商品管理</a></li>
+					<li class="active"><a href="#">订单管理</a></li>
 					<li><a href="">预留位</a></li>
 					<li><a href="">预留位</a></li>
 					<li><a href="">预留位</a></li>
@@ -86,49 +86,51 @@
 				<div class="row placeholders">
 					<div class="col-xs-6 col-sm-3 placeholder">
 						<h4>
-							<button type="button" class="btn btn-primary"
-								data-target='#add_new_Modal' data-toggle='modal'>新增商品</button>
+							<div class="bfh-datepicker" data-format="y-m-d" data-date="today"
+								id="startDate"></div>
 						</h4>
 					</div>
 					<div class="col-xs-6 col-sm-3 placeholder">
 						<h4>
-							<button type="button" class="btn btn-primary"
-								data-target='#myModa2' data-toggle='modal'>上传图片</button>
+							<div class="bfh-datepicker" data-format="y-m-d" data-date="today"
+								id="endDate"></div>
 						</h4>
-						<span class="text-muted">预留位</span>
 					</div>
-					<div class="col-xs-6 col-sm-3 placeholder">
-						<h4>Label2</h4>
-						<span class="text-muted">预留位</span>
+					<div class="col-xs-6 col-sm-3 placeholder" style="padding-left: 0px;width: 115px;">
+						<h4>
+							<button type="button" class="btn btn-primary"
+								data-target='#myModa2' data-toggle='modal' onclick="getOrder()" style="width: 76px;">查询</button>
+						</h4>
+
 					</div>
 					<div class="col-xs-6 col-sm-3 placeholder">
 						<h4>Label3</h4>
 						<span class="text-muted">预留位</span>
 					</div>
 				</div>
-				<!--category pie chart starts here.....-->
-				<div id="category_pie_container"
+				<!--status pie chart starts here.....-->
+				<div id="status_pie_container"
 					style="min-width: 300px; height: 300px; max-width: 600px; margin: 0 auto"></div>
-				<!--category pie chart ends here.....-->
+				<!--status pie chart ends here.....-->
 
-				<!--price pie chart starts here.....-->
-				<div id="price_pie_container"
+				<!--province pie chart starts here.....-->
+				<div id="province_pie_container"
 					style="min-width: 300px; height: 300px; max-width: 600px; margin: 0 auto"></div>
-				<!--price pie chart ends here.....-->
+				<!--province pie chart ends here.....-->
 
 
 				<h2 class="sub-header" id="order_count"></h2>
-				
+
 				<div class="table-responsive">
 					<table class="table table-striped">
 						<thead>
 							<tr>
 								<th>编号</th>
-								<th>名称</th>
-								<th>类别</th>
-								<th>价格</th>
-								<th>库存</th>
-								<th>上架时间</th>
+								<th>下单时间</th>
+								<th>订单状态</th>
+								<th>收获地址</th>
+								<th>＃</th>
+								<th>＃</th>
 								<th>操作</th>
 							</tr>
 						</thead>
@@ -138,72 +140,74 @@
 				</div>
 			</div>
 		</div>
-	</div>
-	<!-- Add New Product start here....-->
-	<div class="modal fade" id="add_new_Modal" tabindex="-1" role="dialog"
+	</div> 
+
+
+	<!-- Order Detail Model start here....-->
+	<div class="modal fade" id="order_detail_Modal" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h4 class="modal-title" id="myModalLabe2">上传新的商品</h4>
+					<h4 class="modal-title" id="myModalLabe2">订单详情</h4>
 				</div>
 				<div class="modal-body">
 					<form class="form-horizontal" role="form" id="add_product_form"
 						enctype="multipart/form-data" method="POST"
 						action="${pageContext.request.contextPath}/product/add">
 						<div class="form-group">
-							<label for="image_name" class="col-xs-2 control-label">名称</label>
+							<label for="image_name" class="col-xs-2 control-label">1</label>
 							<div class="col-xs-4">
 								<input type="text" class="form-control" id="product_name"
-									name="product_name" />
+									name="product_name" placeholder="根据需求预留信息显示....."/>
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="image_name" class="col-xs-2 control-label">价格</label>
+							<label for="image_name" class="col-xs-2 control-label">2</label>
 							<div class="col-xs-4">
-								<input type="text" class="form-control" id="product_price"
-									name="product_price" />
+								<input type="text" class="form-control" id="product_name"
+									name="product_name" placeholder="根据需求预留信息显示....."/>
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="image_name" class="col-xs-2 control-label">库存</label>
+							<label for="image_name" class="col-xs-2 control-label">3</label>
 							<div class="col-xs-4">
-								<input type="text" class="form-control" id="order_count"
-									name="order_count" />
+								<input type="text" class="form-control" id="product_name"
+									name="product_name" placeholder="根据需求预留信息显示....."/>
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="image_name" class="col-xs-2 control-label">类别</label>
+							<label for="image_name" class="col-xs-2 control-label">4</label>
 							<div class="col-xs-4">
-								<input type="text" class="form-control" id="product_category"
-									name="product_category" />
+								<input type="text" class="form-control" id="product_name"
+									name="product_name" placeholder="根据需求预留信息显示....."/>
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="image_name" class="col-xs-2 control-label">商品描述</label>
+							<label for="image_name" class="col-xs-2 control-label">5</label>
 							<div class="col-xs-4">
-								<input id="product_description" name="product_description"
-									placeholder="请添加商品详细描述..." />
+								<input type="text" class="form-control" id="product_name"
+									name="product_name" placeholder="根据需求预留信息显示....."/>
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="image" class="col-xs-2 control-label">图片</label>
+							<label for="image" class="col-xs-2 control-label">6</label>
 							<div class="col-xs-4">
-								<input type="file" id="product_image_url" name="file" />
+								<input type="text" class="form-control" id="product_name"
+									name="product_name" placeholder="根据需求预留信息显示....."/>
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="image" class="col-xs-2 control-label">商品地址</label>
+							<label for="image" class="col-xs-2 control-label">7</label>
 							<div class="col-xs-4">
-								<input type="text" id="product_url" name="product_url" />
+								<input type="text" class="form-control" id="product_name"
+									name="product_name" placeholder="根据需求预留信息显示....."/>
 							</div>
 						</div>
 					</form>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-					<button type="submit" class="btn btn-primary" id="upload"
-						onclick='add()'>确定</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
 				</div>
 			</div>
 		</div>
@@ -212,17 +216,21 @@
 </body>
 <script type="text/javascript">
 	$(document).ready(function() {
-		groupByCategory();
-		groupByPrice();
-		getProduct();
+		//groupByCategory();
+		//groupByPrice();
+		//getProduct();
+		//groupByProvince();
+		getOrder();
 	});
 
-	//group by category function starts here...
-	function groupByCategory() {
+	//group by order status function starts here...
+	function groupByStatus() {
+		var startDate=$('#startDate').val();
+		var endDate=$('#endDate').val();
 		var array = Array();
 		$
 				.getJSON(
-						'${pageContext.request.contextPath}/product/category',
+						'${pageContext.request.contextPath}/order/status?startDate='+startDate+'&endDate='+endDate,
 						function(cdata) {
 							console.log(cdata);
 							for (key in cdata) {
@@ -233,7 +241,7 @@
 								point.y = point.data;
 							});
 							$(function() {
-								$('#category_pie_container')
+								$('#status_pie_container')
 										.highcharts(
 												{
 													chart : {
@@ -243,7 +251,68 @@
 														type : 'pie'
 													},
 													title : {
-														text : 'Product Category'
+														text : '订单状态'
+													},
+													tooltip : {
+														pointFormat : '{series.name}: <b>{point.percentage:.1f}%</b>'
+													},
+													plotOptions : {
+														pie : {
+															allowPointSelect : true,
+															cursor : 'pointer',
+															dataLabels : {
+																enabled : true,
+																format : '<b>{point.name}</b>: {point.percentage:.1f} %',
+																style : {
+																	color : (Highcharts.theme && Highcharts.theme.contrastTextColor)
+																			|| 'black'
+																}
+															}
+														}
+													},
+													series : [ {
+														name : 'Percentage',
+														colorByPoint : true,
+														data : array
+													} ]
+												});
+							});
+						}).done(function(){
+							groupByProvince();
+						});
+
+	}
+	//group by order status function starts here...
+
+	//group by province function starts here...
+	function groupByProvince() {
+		var startDate=$('#startDate').val();
+		var endDate=$('#endDate').val();
+		var array = Array();
+		$
+				.getJSON(
+						'${pageContext.request.contextPath}/order/province?startDate='+startDate+'&endDate='+endDate,
+						function(cdata) {
+							console.log(cdata);
+							for (key in cdata) {
+								array.push([ key, cdata[key] ])
+							}
+
+							$.each(cdata, function(i, point) {
+								point.y = point.data;
+							});
+							$(function() {
+								$('#province_pie_container')
+										.highcharts(
+												{
+													chart : {
+														plotBackgroundColor : null,
+														plotBorderWidth : null,
+														plotShadow : false,
+														type : 'pie'
+													},
+													title : {
+														text : '购买省份'
 													},
 													tooltip : {
 														pointFormat : '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -270,65 +339,8 @@
 												});
 							});
 						});
-
 	}
-	//group by category function starts here...
-
-	//group by price function starts here...
-	function groupByPrice() {
-		var array = Array();
-		$
-				.getJSON(
-						'${pageContext.request.contextPath}/product/price',
-						function(cdata) {
-							console.log(cdata);
-							for (key in cdata) {
-								array.push([ key, cdata[key] ])
-							}
-
-							$.each(cdata, function(i, point) {
-								point.y = point.data;
-							});
-							$(function() {
-								$('#price_pie_container')
-										.highcharts(
-												{
-													chart : {
-														plotBackgroundColor : null,
-														plotBorderWidth : null,
-														plotShadow : false,
-														type : 'pie'
-													},
-													title : {
-														text : 'Product Price'
-													},
-													tooltip : {
-														pointFormat : '{series.name}: <b>{point.percentage:.1f}%</b>'
-													},
-													plotOptions : {
-														pie : {
-															allowPointSelect : true,
-															cursor : 'pointer',
-															dataLabels : {
-																enabled : true,
-																format : '<b>{point.name}</b>: {point.percentage:.1f} %',
-																style : {
-																	color : (Highcharts.theme && Highcharts.theme.contrastTextColor)
-																			|| 'black'
-																}
-															}
-														}
-													},
-													series : [ {
-														name : 'Percentage',
-														colorByPoint : true,
-														data : array
-													} ]
-												});
-							});
-						});
-	}
-	//group by price function starts here...
+	//group by province function ends here...
 
 	//String buffer function starts here...
 	function StringBuffer() {
@@ -342,47 +354,73 @@
 	};
 	//String buffer function ends here...
 
-	//show the active products starts here...
-	function getProduct() {
-		$.getJSON('${pageContext.request.contextPath}/product/get', function(
-				data) {
 
-			var length=data.length;
-			var line = new StringBuffer();
-			$.each(data, function(i, record) {
-				var id = record.id;
-				var title = record.title;
-				var category = record.category;
-				var price = record.price;
-				var count = record.count;
-				var time = record.time;
-				//console.log(id);
-				line.append('<tr><td>' + id + '</td><td>' + title + '</td><td>'
-						+ category + '</td><td>' + price + '</td><td>' + count
-						+ '</td><td>' + time + '</td><td><button type="button" class="btn btn-primary" onclick="deleteProduct('+id+')">delete</button></td></tr>');
-			});
-			$('#order_count').html('');
-			$('#order_count').append('已上架商品: '+length+'件');
-			var $table = $('#result_table');
-			$table.append(line.toString());
-		});
+
+	//show the orders starts here...
+	function getOrder() {
+
+		var startDate=$('#startDate').val();
+		var endDate=$('#endDate').val();
+		$
+				.getJSON(
+						'${pageContext.request.contextPath}/order/get?startDate='+startDate+'&endDate='+endDate,
+						function(data) {
+
+							var length = data.length;
+							var line = new StringBuffer();
+							$
+									.each(
+											data,
+											function(i, record) {
+												var order_id = record.order_id;
+												//var title = record.time;
+												var img_url = record.img_url;
+												var address = record.address;
+												var status = record.status;
+												var time = record.time;
+												//console.log(id);
+												line
+														.append('<tr><td>'
+																+ order_id
+																+ '</td><td>'
+																+ time
+																+ '</td><td>'
+																+ status
+																+ '</td><td>'
+																+ address
+																+ '</td><td>'
+																+ '<img src=\''+img_url+'\' style="width: 30px;"></img>'
+																+ '</td><td>'
+																+ '#'
+																+ '</td><td><button type="button" class="btn btn-primary" type="button" data-target="#order_detail_Modal" data-toggle="modal">详细信息</button></td></tr>');
+											});
+							$('#order_count').html('');
+							$('#order_count')
+									.append('已查询到的订单: ' + length + '条');
+							var $table = $('#result_table');
+							$table.html('');
+							$table.append(line.toString());
+						}).done(function(){
+							//alert("done");
+							groupByStatus();
+							
+						});
+						
+						
+	//
+	
 	}
 	//show the active products ends here...
 
-	//add a new product function starts here...
-	function add() {
-		var $form = $('#add_product_form');
-		$form.submit();
-	}
 
-	//delete an active product function starts here...
-	function deleteProduct(productId){
-		$.getJSON('${pageContext.request.contextPath}/product/delete/'+productId, function() {
+	//show detail of an order function starts here...
+	function detailOrder(orderId) {
+		$.getJSON('${pageContext.request.contextPath}/product/delete/'
+				+ productId, function() {
 		});
 		var $table = $('#result_table');
 		$table.html('');
 		getProduct();
 	}
-
 </script>
 </html>

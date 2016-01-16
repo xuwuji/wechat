@@ -5,10 +5,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.stereotype.Service;
 
 import com.xuwuji.wechat.admin.util.MyBatisUtil;
 import com.xuwuji.wechat.common.model.Product;
-
+@Service
 public class ProductService {
 	public static void insertProduct(Product product) {
 		SqlSession sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
@@ -64,6 +65,17 @@ public class ProductService {
 			List<HashMap<String, Object>> list = mapper.groupByCategory();
 			sqlSession.commit();
 			return list;
+		} finally {
+			sqlSession.close();
+		}
+	}
+
+	public void deleteById(int product_id) {
+		SqlSession sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
+		try {
+			ProductMapper mapper = sqlSession.getMapper(ProductMapper.class);
+			mapper.delelteById(product_id);
+			sqlSession.commit();
 		} finally {
 			sqlSession.close();
 		}

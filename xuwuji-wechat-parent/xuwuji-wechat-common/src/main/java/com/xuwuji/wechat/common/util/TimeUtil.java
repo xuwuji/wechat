@@ -38,6 +38,11 @@ public class TimeUtil {
 		return getDateTime(time);
 	}
 
+	public static String converUnixSimple(long unixTime) {
+		DateTime time = new DateTime(unixTime * 1000L);
+		return getSimpleDateTime(time);
+	}
+
 	public static String currentTime() {
 		// TODO Auto-generated method stub
 		return getDateTime(DateTime.now());

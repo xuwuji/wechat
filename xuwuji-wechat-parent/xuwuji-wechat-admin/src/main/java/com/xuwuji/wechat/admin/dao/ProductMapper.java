@@ -30,4 +30,7 @@ public interface ProductMapper {
 	@Select("SELECT category,count(category) as count FROM PRODUCT group by category")
 	public List<HashMap<String, Object>> groupByCategory();
 
+	@Update("update PRODUCT set flag =0 WHERE id=#{prodcut_id}")
+	public void delelteById(int prodcut_id);
+
 }
