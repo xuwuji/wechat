@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import com.xuwuji.wechat.admin.model.weidian.Order;
 import com.xuwuji.wechat.admin.util.WeiDianUtil;
 import com.xuwuji.wechat.common.util.HttpUtil;
+import com.xuwuji.wechat.common.util.TimeUtil;
 
 @Service
 
@@ -25,14 +26,18 @@ public class WeiDianOrderService {
 		String result = "";
 		try {
 			String host = "http://api.vdian.com/api?param=";
+			String minutes = TimeUtil.getCurrentMinutesDateTime();
+			System.out.println(minutes);
 			String param1 = ""
-					+ "{\"page_num\":1,\"order_type\":\"\", \"add_start\":\"{startDate}%2016:36:08\",\"add_end\":\"{endDate}%2016:36:08\"}";
-			param1 = param1.replace("{startDate}", startDate).replace("{endDate}", endDate);
+					+ "{\"page_num\":1,\"order_type\":\"\", \"add_start\":\"{startDate}%2000:00:00\",\"add_end\":\"{endDate}%20{now}\"}";
+
+			param1 = param1.replace("{startDate}", startDate).replace("{endDate}", endDate).replace("{now}", minutes);
 			String param2 = "{\"method\":\"vdian.order.list.get\",\"access_token\":\"{token}\", \"version\":\"1.1\",\"format\":\"json\"}";
 			param2 = param2.replace("{token}", WeiDianUtil.getAccessToken());
 			param1 = HttpUtil.encode(param1.toString(), "ISO-8859-1");
 			param2 = HttpUtil.encode(param2.toString(), "ISO-8859-1");
 			String url = host + param1 + "&public=" + param2;
+			System.out.println(url);
 			URL realUrl = new URL(url);
 			URLConnection connection = realUrl.openConnection();
 			connection.setRequestProperty("accept", "*/*");

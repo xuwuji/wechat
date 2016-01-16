@@ -18,6 +18,10 @@ public class TimeUtil {
 		return DateTimeFormat.forPattern("yyyy-MM-dd");
 	}
 
+	public static DateTimeFormatter getMinutesDateFormatter() {
+		return DateTimeFormat.forPattern("HH:mm:ss");
+	}
+
 	public static String getDateTime(DateTime time) {
 		String result = time.toString(getDateFormatter());
 		return result;
@@ -30,6 +34,11 @@ public class TimeUtil {
 
 	public static String getSimpleDateTime(DateTime time) {
 		String result = time.toString(getSimpleDateFormatter());
+		return result;
+	}
+
+	public static String getCurrentMinutesDateTime() {
+		String result = DateTime.now().toString(getMinutesDateFormatter());
 		return result;
 	}
 
