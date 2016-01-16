@@ -65,8 +65,8 @@
 				</ul>
 				<ul class="nav nav-sidebar">
 					<li><a href="${pageContext.request.contextPath}/index">商品管理</a></li>
-					<li class="active"><a href="#">订单管理</a></li>
-					<li><a href="">预留位</a></li>
+					<li><a href="${pageContext.request.contextPath}/order/index">订单管理</a></li>
+					<li lass="active"><a href="">用户分析</a></li>
 					<li><a href="">预留位</a></li>
 					<li><a href="">预留位</a></li>
 				</ul>
@@ -225,24 +225,24 @@
 
 
 	function getUserTrend () {
-		var yData=Array();
-		var xData=Array();
-		$.getJSON('${pageContext.request.contextPath}/userTrend',function(data) {
+		var yData=[];
+		var xData=[];
+		$.getJSON('${pageContext.request.contextPath}/user/trend',function(data) {
 				for(key in data){
+					console.log(key);
 					yData.push(key);
 					xData.push(data[key]);
 				}
-		});
-
-
-
-		   $('#user_trend_container').highcharts({
+				console.log(yData);
+				console.log(xData);
+		}).done(function(){
+			$('#user_trend_container').highcharts({
         title: {
-            text: 'User Trend',
+            text: '用户趋势',
             x: -20 //center
         },
         subtitle: {
-            text: 'Source: WorldClimate.com',
+            text: '最近一月',
             x: -20
         },
         xAxis: {
@@ -250,7 +250,7 @@
         },
         yAxis: {
             title: {
-                text: 'Temperature (°C)'
+                text: '每日新加用户'
             },
             plotLines: [{
                 value: 0,
@@ -259,7 +259,7 @@
             }]
         },
         tooltip: {
-            valueSuffix: '°C'
+            valueSuffix: ''
         },
         legend: {
             layout: 'vertical',
@@ -268,10 +268,13 @@
             borderWidth: 0
         },
         series: [{
-            name: 'Tokyo',
-            data: yData
+            name: '',
+            data: xData
         }]
-    });  
+    });
+		});
+		
+		  
 	}
 
 

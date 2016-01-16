@@ -38,7 +38,7 @@ public class TimeUtil {
 		return getDateTime(time);
 	}
 
-	public static String converUnixSimple(long unixTime) {
+	public static String converSimpleUnix(long unixTime) {
 		DateTime time = new DateTime(unixTime * 1000L);
 		return getSimpleDateTime(time);
 	}
