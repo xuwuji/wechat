@@ -1,5 +1,6 @@
 package com.xuwuji.wechat.admin.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -19,7 +20,14 @@ public class UserService {
 		session.close();
 		return list;
 	}
-	
-	
+
+	public List<HashMap<String, Object>> getUserTextMessageCount() {
+		SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession();
+		UserMapper mapper = session.getMapper(UserMapper.class);
+		List<HashMap<String, Object>> list = mapper.getUserTextMessageCount();
+		session.commit();
+		session.close();
+		return list;
+	}
 
 }

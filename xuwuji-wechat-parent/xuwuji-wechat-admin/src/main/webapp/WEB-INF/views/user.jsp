@@ -25,6 +25,8 @@
 <script
 	src="${pageContext.request.contextPath}/resources/js/highchart/highcharts.js"></script>
 <script
+	src="${pageContext.request.contextPath}/resources/js/highchart/modules/funnel.js"></script>
+<script
 	src="${pageContext.request.contextPath}/resources/js/highchart/modules/exporting.js"></script>
 
 </head>
@@ -96,10 +98,12 @@
 								id="endDate"></div>
 						</h4>
 					</div>
-					<div class="col-xs-6 col-sm-3 placeholder" style="padding-left: 0px;width: 115px;">
+					<div class="col-xs-6 col-sm-3 placeholder"
+						style="padding-left: 0px; width: 115px;">
 						<h4>
 							<button type="button" class="btn btn-primary"
-								data-target='#myModa2' data-toggle='modal' onclick="getOrder()" style="width: 76px;">查询</button>
+								data-target='#myModa2' data-toggle='modal' onclick="getOrder()"
+								style="width: 76px;">查询</button>
 						</h4>
 
 					</div>
@@ -108,245 +112,142 @@
 						<span class="text-muted">预留位</span>
 					</div>
 				</div>
-				<!--status pie chart starts here.....-->
+				<!--user trend high chart starts here.....-->
 				<div id="user_trend_container"
 					style="min-width: 300px; height: 300px; max-width: 600px; margin: 0 auto"></div>
-				<!--status pie chart ends here.....-->
-
-				<!--province pie chart starts here.....-->
-				<div id="province_pie_container"
+				<!--user trend high chart ends here.....-->
+				<hr
+					style="height: 1px; border: none; border-top: 1px solid #555555;" />
+				<!--search pie chart starts here.....-->
+				<div id="search_pie_container"
 					style="min-width: 300px; height: 300px; max-width: 600px; margin: 0 auto"></div>
-				<!--province pie chart ends here.....-->
+				<!--search pie chart ends here.....-->
+				<hr
+					style="height: 1px; border: none; border-top: 1px solid #555555;" />
+				<!--funnel chart starts here.....-->
+				<div id="funnel_container"
+					style="min-width: 300px; height: 300px; max-width: 600px; margin: 0 auto"></div>
+				<!--funnel chart ends here.....-->
 
-
-				<h2 class="sub-header" id="order_count"></h2>
-
-				<div class="table-responsive">
-					<table class="table table-striped">
-						<thead>
-							<tr>
-								<th>编号</th>
-								<th>下单时间</th>
-								<th>订单状态</th>
-								<th>收获地址</th>
-								<th>＃</th>
-								<th>＃</th>
-								<th>操作</th>
-							</tr>
-						</thead>
-						<tbody id='result_table'>
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</div>
-	</div> 
-
-
-	<!-- Order Detail Model start here....-->
-	<div class="modal fade" id="order_detail_Modal" tabindex="-1" role="dialog"
-		aria-labelledby="myModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h4 class="modal-title" id="myModalLabe2">订单详情</h4>
-				</div>
-				<div class="modal-body">
-					<form class="form-horizontal" role="form" id="add_product_form"
-						enctype="multipart/form-data" method="POST"
-						action="${pageContext.request.contextPath}/product/add">
-						<div class="form-group">
-							<label for="image_name" class="col-xs-2 control-label">1</label>
-							<div class="col-xs-4">
-								<input type="text" class="form-control" id="product_name"
-									name="product_name" placeholder="根据需求预留信息显示....."/>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="image_name" class="col-xs-2 control-label">2</label>
-							<div class="col-xs-4">
-								<input type="text" class="form-control" id="product_name"
-									name="product_name" placeholder="根据需求预留信息显示....."/>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="image_name" class="col-xs-2 control-label">3</label>
-							<div class="col-xs-4">
-								<input type="text" class="form-control" id="product_name"
-									name="product_name" placeholder="根据需求预留信息显示....."/>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="image_name" class="col-xs-2 control-label">4</label>
-							<div class="col-xs-4">
-								<input type="text" class="form-control" id="product_name"
-									name="product_name" placeholder="根据需求预留信息显示....."/>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="image_name" class="col-xs-2 control-label">5</label>
-							<div class="col-xs-4">
-								<input type="text" class="form-control" id="product_name"
-									name="product_name" placeholder="根据需求预留信息显示....."/>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="image" class="col-xs-2 control-label">6</label>
-							<div class="col-xs-4">
-								<input type="text" class="form-control" id="product_name"
-									name="product_name" placeholder="根据需求预留信息显示....."/>
-							</div>
-						</div>
-						<div class="form-group">
-							<label for="image" class="col-xs-2 control-label">7</label>
-							<div class="col-xs-4">
-								<input type="text" class="form-control" id="product_name"
-									name="product_name" placeholder="根据需求预留信息显示....."/>
-							</div>
-						</div>
-					</form>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
-				</div>
-			</div>
 		</div>
 	</div>
-	<!-- Add New Product ends here....-->
+
+
 </body>
 <script type="text/javascript">
 	$(document).ready(function() {
-		//groupByCategory();
-		//groupByPrice();
-		//getProduct();
-		//groupByProvince();
 		getUserTrend();
+		groupBySearch();
+		funnelSales();
 	});
 
-
-	function getUserTrend () {
-		var yData=[];
-		var xData=[];
-		$.getJSON('${pageContext.request.contextPath}/user/trend',function(data) {
-				for(key in data){
-					console.log(key);
-					yData.push(key);
-					xData.push(data[key]);
-				}
-				console.log(yData);
-				console.log(xData);
-		}).done(function(){
+	function getUserTrend() {
+		var yData = [];
+		var xData = [];
+		$.getJSON('${pageContext.request.contextPath}/user/trend',
+				function(data) {
+					for (key in data) {
+						console.log(key);
+						yData.push(key);
+						xData.push(data[key]);
+					}
+					console.log(yData);
+					console.log(xData);
+				}).done(function() {
 			$('#user_trend_container').highcharts({
-        title: {
-            text: '用户趋势',
-            x: -20 //center
-        },
-        subtitle: {
-            text: '最近一月',
-            x: -20
-        },
-        xAxis: {
-            categories: yData
-        },
-        yAxis: {
-            title: {
-                text: '每日新加用户'
-            },
-            plotLines: [{
-                value: 0,
-                width: 1,
-                color: '#808080'
-            }]
-        },
-        tooltip: {
-            valueSuffix: ''
-        },
-        legend: {
-            layout: 'vertical',
-            align: 'right',
-            verticalAlign: 'middle',
-            borderWidth: 0
-        },
-        series: [{
-            name: '',
-            data: xData
-        }]
-    });
+				title : {
+					text : '用户趋势',
+					x : -20
+				//center
+				},
+				subtitle : {
+					text : '最近一月',
+					x : -20
+				},
+				xAxis : {
+					categories : yData
+				},
+				yAxis : {
+					title : {
+						text : '每日新加用户'
+					},
+					plotLines : [ {
+						value : 0,
+						width : 1,
+						color : '#808080'
+					} ]
+				},
+				tooltip : {
+					valueSuffix : ''
+				},
+				legend : {
+					layout : 'vertical',
+					align : 'right',
+					verticalAlign : 'middle',
+					borderWidth : 0
+				},
+				series : [ {
+					name : '',
+					data : xData
+				} ]
+			});
 		});
-		
-		  
+
 	}
 
+	//funnel sales function starts here...
+	function funnelSales() {
+		$('#funnel_container')
+				.highcharts(
+						{
+							chart : {
+								type : 'funnel',
+								marginRight : 100
+							},
+							title : {
+								text : '购买转换率分析',
+								x : -50
+							},
+							plotOptions : {
+								series : {
+									dataLabels : {
+										enabled : true,
+										format : '<b>{point.name}</b> ({point.y:,.0f})',
+										color : (Highcharts.theme && Highcharts.theme.contrastTextColor)
+												|| 'black',
+										softConnector : true
+									},
+									neckWidth : '30%',
+									neckHeight : '25%'
 
-	//group by order status function starts here...
-	function groupByStatus() {
-		var startDate=$('#startDate').val();
-		var endDate=$('#endDate').val();
-		var array = Array();
-		$
-				.getJSON(
-						'${pageContext.request.contextPath}/order/status?startDate='+startDate+'&endDate='+endDate,
-						function(cdata) {
-							console.log(cdata);
-							for (key in cdata) {
-								array.push([ key, cdata[key] ])
-							}
-
-							$.each(cdata, function(i, point) {
-								point.y = point.data;
-							});
-							$(function() {
-								$('#status_pie_container')
-										.highcharts(
-												{
-													chart : {
-														plotBackgroundColor : null,
-														plotBorderWidth : null,
-														plotShadow : false,
-														type : 'pie'
-													},
-													title : {
-														text : '订单状态'
-													},
-													tooltip : {
-														pointFormat : '{series.name}: <b>{point.percentage:.1f}%</b>'
-													},
-													plotOptions : {
-														pie : {
-															allowPointSelect : true,
-															cursor : 'pointer',
-															dataLabels : {
-																enabled : true,
-																format : '<b>{point.name}</b>: {point.percentage:.1f} %',
-																style : {
-																	color : (Highcharts.theme && Highcharts.theme.contrastTextColor)
-																			|| 'black'
-																}
-															}
-														}
-													},
-													series : [ {
-														name : 'Percentage',
-														colorByPoint : true,
-														data : array
-													} ]
-												});
-							});
-						}).done(function(){
-							groupByProvince();
+								//-- Other available options
+								// height: pixels or percent
+								// width: pixels or percent
+								}
+							},
+							legend : {
+								enabled : false
+							},
+							series : [ {
+								name : 'Unique users',
+								data : [ [ '用户数', 15654 ],
+										[ '用户操作', 4064 ],
+										[ '查看商品', 1987 ],
+										[ '下订单', 976 ],
+										[ '付款', 846 ] ]
+							} ]
 						});
-
 	}
-	//group by order status function starts here...
+	//funnel sales status function starts here...
 
-	//group by province function starts here...
-	function groupByProvince() {
-		var startDate=$('#startDate').val();
-		var endDate=$('#endDate').val();
+	//group by search keyword function starts here...
+	function groupBySearch() {
+		//var startDate=$('#startDate').val();
+		//var endDate=$('#endDate').val();
 		var array = Array();
 		$
 				.getJSON(
-						'${pageContext.request.contextPath}/order/province?startDate='+startDate+'&endDate='+endDate,
+						'${pageContext.request.contextPath}/user/search',
 						function(cdata) {
 							console.log(cdata);
 							for (key in cdata) {
@@ -357,7 +258,7 @@
 								point.y = point.data;
 							});
 							$(function() {
-								$('#province_pie_container')
+								$('#search_pie_container')
 										.highcharts(
 												{
 													chart : {
@@ -367,7 +268,7 @@
 														type : 'pie'
 													},
 													title : {
-														text : '购买省份'
+														text : '搜素关键词'
 													},
 													tooltip : {
 														pointFormat : '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -395,7 +296,7 @@
 							});
 						});
 	}
-	//group by province function ends here...
+	//group by search keyword function ends here...
 
 	//String buffer function starts here...
 	function StringBuffer() {
@@ -409,73 +310,5 @@
 	};
 	//String buffer function ends here...
 
-
-
-	//show the orders starts here...
-	function getOrder() {
-
-		var startDate=$('#startDate').val();
-		var endDate=$('#endDate').val();
-		$
-				.getJSON(
-						'${pageContext.request.contextPath}/order/get?startDate='+startDate+'&endDate='+endDate,
-						function(data) {
-
-							var length = data.length;
-							var line = new StringBuffer();
-							$
-									.each(
-											data,
-											function(i, record) {
-												var order_id = record.order_id;
-												//var title = record.time;
-												var img_url = record.img_url;
-												var address = record.address;
-												var status = record.status;
-												var time = record.time;
-												//console.log(id);
-												line
-														.append('<tr><td>'
-																+ order_id
-																+ '</td><td>'
-																+ time
-																+ '</td><td>'
-																+ status
-																+ '</td><td>'
-																+ address
-																+ '</td><td>'
-																+ '<img src=\''+img_url+'\' style="width: 30px;"></img>'
-																+ '</td><td>'
-																+ '#'
-																+ '</td><td><button type="button" class="btn btn-primary" type="button" data-target="#order_detail_Modal" data-toggle="modal">详细信息</button></td></tr>');
-											});
-							$('#order_count').html('');
-							$('#order_count')
-									.append('已查询到的订单: ' + length + '条');
-							var $table = $('#result_table');
-							$table.html('');
-							$table.append(line.toString());
-						}).done(function(){
-							//alert("done");
-							groupByStatus();
-							
-						});
-						
-						
-	//
-	
-	}
-	//show the active products ends here...
-
-
-	//show detail of an order function starts here...
-	function detailOrder(orderId) {
-		$.getJSON('${pageContext.request.contextPath}/product/delete/'
-				+ productId, function() {
-		});
-		var $table = $('#result_table');
-		$table.html('');
-		getProduct();
-	}
 </script>
 </html>
