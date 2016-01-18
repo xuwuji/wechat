@@ -3,12 +3,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 <title>Product</title>
 <!-- Bootstrap core CSS -->
+<script
+	src="${pageContext.request.contextPath}/resources/js/jquery-1.11.3.min.js"></script>
+
 <link
 	href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css"
 	rel="stylesheet">
@@ -16,8 +17,6 @@
 <link
 	href="${pageContext.request.contextPath}/resources/css/dashboard.css"
 	rel="stylesheet">
-<script
-	src="${pageContext.request.contextPath}/resources/js/jquery-1.11.3.min.js"></script>
 
 <script
 	src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
@@ -77,10 +76,6 @@
 					<li><a href="">预留位</a></li>
 				</ul>
 			</div>
-
-
-
-
 
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 				<div class="row placeholders">
