@@ -1,4 +1,4 @@
-package com.xuwuji.wechat.admin.util;
+package com.xuwuji.wechat.common.model;
 
 public enum Price {
 

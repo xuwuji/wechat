@@ -17,7 +17,9 @@
 <link
 	href="${pageContext.request.contextPath}/resources/css/dashboard.css"
 	rel="stylesheet">
-
+<link
+	href="${pageContext.request.contextPath}/resources/DataTables/css/jquery.dataTables.min.css"
+	rel="stylesheet">
 <script
 	src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
 <script
@@ -25,6 +27,8 @@
 <script
 	src="${pageContext.request.contextPath}/resources/js/highchart/modules/exporting.js"></script>
 
+<script
+	src="${pageContext.request.contextPath}/resources/DataTables/js/jquery.dataTables.min.js"></script>
 <title>Insert title here</title>
 </head>
 <body>
@@ -113,7 +117,7 @@
 
 
 				<h2 class="sub-header" id="order_count"></h2>
-				
+
 				<div class="table-responsive">
 					<table class="table table-striped">
 						<thead>
@@ -131,6 +135,42 @@
 						</tbody>
 					</table>
 				</div>
+
+
+
+				<!--data tables start here-->
+				<table id="example" class="display" cellspacing="0" width="100%">
+					<button type="button" class="btn btn-primary" id="delete_button">delete</button>
+					<thead>
+						<tr>
+							<th>编号</th>
+							<th>名称</th>
+							<th>类别</th>
+							<th>价格</th>
+							<th>库存</th>
+							<th>上架时间</th>
+
+						</tr>
+					</thead>
+					<tfoot>
+						<tr>
+							<th>编号</th>
+							<th>名称</th>
+							<th>类别</th>
+							<th>价格</th>
+							<th>库存</th>
+							<th>上架时间</th>
+						</tr>
+					</tfoot>
+				</table>
+				<!--data tables end here-->
+
+
+
+
+
+
+
 			</div>
 		</div>
 	</div>
@@ -209,8 +249,74 @@
 	$(document).ready(function() {
 		groupByCategory();
 		groupByPrice();
+
+		dataTable();
 		getProduct();
+
 	});
+
+	function dataTable() {
+		$('#example').DataTable({
+			"ajax" : {
+				"url" : "${pageContext.request.contextPath}/product/get",
+				"type" : "GET",
+				"dataSrc" : ""
+			},
+			"columns" : [ {
+				"data" : "id"
+			}, {
+				"data" : "title"
+			}, {
+				"data" : "category"
+			}, {
+				"data" : "price"
+			}, {
+				"data" : "count"
+			}, {
+				"data" : "time"
+			} ]
+		});
+
+		var table = $('#example').DataTable();
+
+		$('#example tbody').on('click', 'tr', function() {
+			if ($(this).hasClass('selected')) {
+				$(this).removeClass('selected');
+			} else {
+				table.$('tr.selected').removeClass('selected');
+				$(this).addClass('selected');
+			}
+		});
+		$('#button').click(function() {
+			table.row('.selected').remove().draw(false);
+		});
+
+		$('#delete_button').click(function() {
+			table.row('.selected').remove();
+				$('#example').DataTable({
+			"ajax" : {
+				"url" : "${pageContext.request.contextPath}/product/get",
+				"type" : "GET",
+				"dataSrc" : ""
+			},
+			"columns" : [ {
+				"data" : "id"
+			}, {
+				"data" : "title"
+			}, {
+				"data" : "category"
+			}, {
+				"data" : "price"
+			}, {
+				"data" : "count"
+			}, {
+				"data" : "time"
+			} ]
+		});
+			table.draw(false);
+		});
+
+	}
 
 	//group by category function starts here...
 	function groupByCategory() {
@@ -339,28 +445,52 @@
 
 	//show the active products starts here...
 	function getProduct() {
-		$.getJSON('${pageContext.request.contextPath}/product/get', function(
-				data) {
+		var tabledata = [];
+		$
+				.getJSON(
+						'${pageContext.request.contextPath}/product/get',
+						function(data) {
+							//dt.data = data;
+							var length = data.length;
+							var line = new StringBuffer();
+							console.log(data);
+							$
+									.each(
+											data,
+											function(i, record) {
+												var id = record.id;
+												var title = record.title;
+												var category = record.category;
+												var price = record.price;
+												var count = record.count;
+												var time = record.time;
+												//console.log(id);
+												line
+														.append('<tr><td>'
+																+ id
+																+ '</td><td>'
+																+ title
+																+ '</td><td>'
+																+ category
+																+ '</td><td>'
+																+ price
+																+ '</td><td>'
+																+ count
+																+ '</td><td>'
+																+ time
+																+ '</td><td><button type="button" class="btn btn-primary" onclick="deleteProduct('
+																+ id
+																+ ')">delete</button></td></tr>');
+											});
+							$('#order_count').html('');
+							$('#order_count').append('已上架商品: ' + length + '件');
+							var $table = $('#result_table');
+							$table.append(line.toString());
+							tabledata = data;
+						}).done(function() {
+					console.log(tabledata);
 
-			var length=data.length;
-			var line = new StringBuffer();
-			$.each(data, function(i, record) {
-				var id = record.id;
-				var title = record.title;
-				var category = record.category;
-				var price = record.price;
-				var count = record.count;
-				var time = record.time;
-				//console.log(id);
-				line.append('<tr><td>' + id + '</td><td>' + title + '</td><td>'
-						+ category + '</td><td>' + price + '</td><td>' + count
-						+ '</td><td>' + time + '</td><td><button type="button" class="btn btn-primary" onclick="deleteProduct('+id+')">delete</button></td></tr>');
-			});
-			$('#order_count').html('');
-			$('#order_count').append('已上架商品: '+length+'件');
-			var $table = $('#result_table');
-			$table.append(line.toString());
-		});
+				});
 	}
 	//show the active products ends here...
 
@@ -371,13 +501,13 @@
 	}
 
 	//delete an active product function starts here...
-	function deleteProduct(productId){
-		$.getJSON('${pageContext.request.contextPath}/product/delete/'+productId, function() {
+	function deleteProduct(productId) {
+		$.getJSON('${pageContext.request.contextPath}/product/delete/'
+				+ productId, function() {
 		});
 		var $table = $('#result_table');
 		$table.html('');
 		getProduct();
 	}
-
 </script>
 </html>

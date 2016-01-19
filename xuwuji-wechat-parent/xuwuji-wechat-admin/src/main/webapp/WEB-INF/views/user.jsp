@@ -20,6 +20,9 @@
 <link
 	href="${pageContext.request.contextPath}/resources/css/dashboard.css"
 	rel="stylesheet">
+<link
+	href="${pageContext.request.contextPath}/resources/DataTables/css/jquery.dataTables.min.css"
+	rel="stylesheet">
 <script
 	src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
 <script
@@ -28,6 +31,8 @@
 	src="${pageContext.request.contextPath}/resources/js/highchart/modules/funnel.js"></script>
 <script
 	src="${pageContext.request.contextPath}/resources/js/highchart/modules/exporting.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/DataTables/js/jquery.dataTables.min.js"></script>
 
 </head>
 <body>
@@ -129,16 +134,54 @@
 					style="min-width: 300px; height: 300px; max-width: 600px; margin: 0 auto"></div>
 				<!--funnel chart ends here.....-->
 
+
+				<!--data tables start here-->
+				<table id="example" class="display" cellspacing="0" width="100%">
+					<thead>
+						<tr>
+							<th>Name</th>
+							<th>Position</th>
+							<th>Office</th>
+							<th>Extn.</th>
+							<th>Start date</th>
+							<th>Salary</th>
+						</tr>
+					</thead>
+					<tfoot>
+						<tr>
+							<th>Name</th>
+							<th>Position</th>
+							<th>Office</th>
+							<th>Extn.</th>
+							<th>Start date</th>
+							<th>Salary</th>
+						</tr>
+					</tfoot>
+				</table>
+				<!--data tables end here-->
+
+
+			</div>
 		</div>
-	</div>
-
-
 </body>
 <script type="text/javascript">
 	$(document).ready(function() {
 		getUserTrend();
 		groupBySearch();
 		funnelSales();
+
+		$('#example').DataTable({
+			 "ajax": "data/objects.txt",
+        "columns": [
+            { "data": "name" },
+            { "data": "position" },
+            { "data": "office" },
+            { "data": "extn" },
+            { "data": "start_date" },
+            { "data": "salary" }
+        ]
+		});
+
 	});
 
 	function getUserTrend() {
@@ -230,10 +273,8 @@
 							},
 							series : [ {
 								name : 'Unique users',
-								data : [ [ '用户数', 15654 ],
-										[ '用户操作', 4064 ],
-										[ '查看商品', 1987 ],
-										[ '下订单', 976 ],
+								data : [ [ '用户数', 15654 ], [ '用户操作', 4064 ],
+										[ '查看商品', 1987 ], [ '下订单', 976 ],
 										[ '付款', 846 ] ]
 							} ]
 						});
@@ -309,6 +350,5 @@
 		return this.__strings__.join('');
 	};
 	//String buffer function ends here...
-
 </script>
 </html>

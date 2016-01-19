@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.servlet.ServletException;
@@ -22,7 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.xuwuji.wechat.admin.dao.ProductService;
 import com.xuwuji.wechat.admin.service.QiNiuService;
-import com.xuwuji.wechat.admin.util.Price;
+import com.xuwuji.wechat.common.model.Price;
 import com.xuwuji.wechat.common.model.Product;
 import com.xuwuji.wechat.common.util.TimeUtil;
 

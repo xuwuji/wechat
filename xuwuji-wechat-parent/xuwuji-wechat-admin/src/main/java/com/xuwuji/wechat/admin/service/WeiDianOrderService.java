@@ -13,6 +13,7 @@ import org.json.simple.parser.JSONParser;
 import org.springframework.stereotype.Service;
 
 import com.xuwuji.wechat.admin.model.weidian.Order;
+import com.xuwuji.wechat.admin.util.WeiDianConstants;
 import com.xuwuji.wechat.admin.util.WeiDianUtil;
 import com.xuwuji.wechat.common.util.HttpUtil;
 import com.xuwuji.wechat.common.util.TimeUtil;
@@ -25,12 +26,10 @@ public class WeiDianOrderService {
 		BufferedReader in = null;
 		String result = "";
 		try {
-			String host = "http://api.vdian.com/api?param=";
+			String host = WeiDianConstants.weidianHOST;
 			String minutes = TimeUtil.getCurrentMinutesDateTime();
-			System.out.println(minutes);
 			String param1 = ""
 					+ "{\"page_num\":1,\"order_type\":\"\", \"add_start\":\"{startDate}%2000:00:00\",\"add_end\":\"{endDate}%20{now}\"}";
-
 			param1 = param1.replace("{startDate}", startDate).replace("{endDate}", endDate).replace("{now}", minutes);
 			String param2 = "{\"method\":\"vdian.order.list.get\",\"access_token\":\"{token}\", \"version\":\"1.1\",\"format\":\"json\"}";
 			param2 = param2.replace("{token}", WeiDianUtil.getAccessToken());
@@ -40,9 +39,7 @@ public class WeiDianOrderService {
 			System.out.println(url);
 			URL realUrl = new URL(url);
 			URLConnection connection = realUrl.openConnection();
-			connection.setRequestProperty("accept", "*/*");
-			connection.setRequestProperty("connection", "Keep-Alive");
-			connection.setRequestProperty("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
+			connection = WeiDianUtil.setRequestProperty(connection);
 			connection.connect();
 			in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 			String line;
@@ -65,7 +62,7 @@ public class WeiDianOrderService {
 	public String getOrderDetail(String order_id) throws Exception {
 		BufferedReader in = null;
 		String result = "";
-		String host = "http://api.vdian.com/api?param=";
+		String host = WeiDianConstants.weidianHOST;
 		String param1 = "{\"order_id\":\"{order_id}\"}";
 		param1 = param1.replace("{order_id}", order_id);
 		String param2 = "{\"method\":\"vdian.order.get\",\"access_token\":\"{token}\",\"version\":\"1.0\",\"format\":\"json\"}";
@@ -75,9 +72,7 @@ public class WeiDianOrderService {
 		String url = host + param1 + "&public=" + param2;
 		URL realUrl = new URL(url);
 		URLConnection connection = realUrl.openConnection();
-		connection.setRequestProperty("accept", "*/*");
-		connection.setRequestProperty("connection", "Keep-Alive");
-		connection.setRequestProperty("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
+		connection = WeiDianUtil.setRequestProperty(connection);
 		connection.connect();
 		in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 		String line;
@@ -94,7 +89,6 @@ public class WeiDianOrderService {
 		JSONArray orders = (JSONArray) result.get("orders");
 		List<Order> list = new ArrayList<Order>();
 		for (int i = 0; i < orders.size(); i++) {
-			Order order = new Order();
 			JSONObject inode = (JSONObject) orders.get(i);
 			String img = (String) inode.get("img").toString();
 			String time = (String) inode.get("time").toString();
@@ -103,12 +97,8 @@ public class WeiDianOrderService {
 			String address = (String) buyInfo.get("address");
 			String city = (String) buyInfo.get("city");
 			String province = (String) buyInfo.get("province");
-			order.setAddress(address);
-			order.setOrder_id(order_id);
-			order.setTime(time);
-			order.setImg_url(img);
-			order.setCity(city);
-			order.setProvince(province);
+			Order order = new Order.Builder().orderId(order_id).time(time).address(address).city(city)
+					.province(province).img(img).build();
 			System.out.println(order.toString());
 			// System.out.println(getOrderDetail(order_id));
 			list.add(order);
@@ -122,8 +112,6 @@ public class WeiDianOrderService {
 		JSONObject result = (JSONObject) obj.get("result");
 		JSONArray orders = (JSONArray) result.get("orders");
 		List<Order> list = new ArrayList<Order>();
-		Order order = new Order();
-		;
 		for (int i = 0; i < orders.size(); i++) {
 			JSONObject inode = (JSONObject) orders.get(i);
 			String img = (String) inode.get("img").toString();
@@ -133,17 +121,15 @@ public class WeiDianOrderService {
 			String address = (String) buyInfo.get("address");
 			String city = (String) buyInfo.get("city");
 			String province = (String) buyInfo.get("province");
-			order.setAddress(address);
-			order.setOrder_id(order_id);
-			order.setTime(time);
-			order.setImg_url(img);
-			order.setCity(city);
-			order.setProvince(province);
+			Order order = new Order.Builder().orderId(order_id).time(time).address(address).city(city)
+					.province(province).img(img).build();
+			System.out.println(order.toString());
 			System.out.println(order.toString());
 			// System.out.println(getOrderDetail(order_id));
 			// list.add(order);
+			return order;
 		}
-		return order;
+		return null;
 	}
 
 }

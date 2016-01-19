@@ -6,6 +6,10 @@ import org.joda.time.format.DateTimeFormatter;
 
 public class TimeUtil {
 
+	private TimeUtil() {
+
+	}
+
 	public static DateTimeFormatter getDateFormatter() {
 		return DateTimeFormat.forPattern("yyyy-MM-dd HH:mm");
 	}
