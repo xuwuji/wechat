@@ -10,12 +10,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tomcat.util.codec.binary.Base64;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.xuwuji.wechat.admin.dao.AuthService;
+import com.xuwuji.wechat.admin.service.AuthService;
 
 /**
  * Controller for login
@@ -32,6 +33,9 @@ import com.xuwuji.wechat.admin.dao.AuthService;
  */
 @Controller
 public class LoginController {
+	
+	@Autowired
+	private AuthService authService;
 
 	@RequestMapping(value = { "" }, method = RequestMethod.GET)
 	public ModelAndView welcome(HttpServletRequest request, HttpServletResponse response) {
@@ -165,7 +169,7 @@ public class LoginController {
 		if (username == null || password == null || username.equals("") || password.equals("")) {
 			return null;
 		}
-		Integer authority = AuthService.validate(username, password);
+		Integer authority = authService.validate(username, password);
 		return authority;
 	}
 

@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.xuwuji.wechat.admin.dao.ProductService;
-import com.xuwuji.wechat.admin.dao.UserService;
+import com.xuwuji.wechat.admin.service.ProductService;
+import com.xuwuji.wechat.admin.service.UserService;
 import com.xuwuji.wechat.common.model.UserSubscribeEvent;
 import com.xuwuji.wechat.common.util.TimeUtil;
 

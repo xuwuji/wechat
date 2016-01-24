@@ -1,7 +1,10 @@
 package com.xuwuji.wechat.common.util;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -109,5 +112,15 @@ public class HttpUtil {
 	public static String encode(String param, String charset) throws UnsupportedEncodingException {
 		param = java.net.URLEncoder.encode(param, charset);
 		return param;
+	}
+
+	public static String outputResponse(URLConnection conn) throws IOException {
+		BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+		String result = "";
+		String line;
+		while ((line = in.readLine()) != null) {
+			result += line;
+		}
+		return result;
 	}
 }

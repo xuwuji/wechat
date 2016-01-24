@@ -24,9 +24,6 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		 */
 
 		if (cookies != null) {
-			for (Cookie c : cookies) {
-				System.out.println(c.getName() + ":" + c.getValue());
-			}
 			/**
 			 * if get the cookie, then return true jump out of the
 			 * Interceptor,continue the process

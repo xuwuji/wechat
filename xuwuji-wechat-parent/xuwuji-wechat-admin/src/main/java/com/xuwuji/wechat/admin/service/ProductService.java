@@ -1,4 +1,4 @@
-package com.xuwuji.wechat.admin.dao;
+package com.xuwuji.wechat.admin.service;
 
 import java.util.HashMap;
 import java.util.List;
@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
 
+import com.xuwuji.wechat.admin.dao.ProductMapper;
 import com.xuwuji.wechat.admin.util.MyBatisUtil;
 import com.xuwuji.wechat.common.model.Product;
 @Service

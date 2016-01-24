@@ -56,9 +56,14 @@ public class TimeUtil {
 		return getSimpleDateTime(time);
 	}
 
-	public static String currentTime() {
+	public static String currentTimewithMinutes() {
 		// TODO Auto-generated method stub
 		return getDateTime(DateTime.now());
+	}
+
+	public static String currentTimewithoutMinutes() {
+		// TODO Auto-generated method stub
+		return getSimpleDateTime(DateTime.now());
 	}
 
 	public static String recurrentTime() {

@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.xuwuji.wechat.admin.dao.ProductService;
+import com.xuwuji.wechat.admin.service.ProductService;
 import com.xuwuji.wechat.admin.service.QiNiuService;
 import com.xuwuji.wechat.common.model.Price;
 import com.xuwuji.wechat.common.model.Product;
@@ -61,7 +61,7 @@ public class ProductController {
 		product.setCount(Integer.valueOf(product_count));
 		product.setCategory(product_category);
 		product.setUrl(product_url);
-		product.setTime(TimeUtil.currentTime());
+		product.setTime(TimeUtil.currentTimewithMinutes());
 		product.setFlag(1);
 		InputStream fileStream = file.getInputStream();
 		// check if the file name has already been in the space
