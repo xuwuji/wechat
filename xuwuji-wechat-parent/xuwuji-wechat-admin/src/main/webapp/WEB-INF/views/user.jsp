@@ -75,7 +75,7 @@
 					<li><a href="${pageContext.request.contextPath}/order/index">订单管理</a></li>
 					<li class="active"><a href="">用户分析</a></li>
 					<li><a href="${pageContext.request.contextPath}/util/index">金融工具</a></li>
-					<li><a href="${pageContext.request.contextPath}/cost/util">成本控制</a></li>
+					<li><a href="${pageContext.request.contextPath}/cost/index">成本控制</a></li>
 				</ul>
 				<ul class="nav nav-sidebar">
 					<li><a href="">预留位</a></li>
