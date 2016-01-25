@@ -31,8 +31,6 @@
 	src="${pageContext.request.contextPath}/resources/js/highchart/modules/funnel.js"></script>
 <script
 	src="${pageContext.request.contextPath}/resources/js/highchart/modules/exporting.js"></script>
-<script
-	src="${pageContext.request.contextPath}/resources/DataTables/js/jquery.dataTables.min.js"></script>
 
 </head>
 <body>
@@ -133,22 +131,24 @@
 					<div class="col-xs-6 col-sm-3 placeholder"
 						style="padding-left: 0px; width: 115px;">
 						<h4>
-							<button type="button" class="btn btn-primary" onclick="exchange()"
-								style="width: 76px;">查询</button>
+							<button type="button" class="btn btn-primary"
+								onclick="exchange()" style="width: 76px;">查询</button>
 						</h4>
 
 					</div>
 					<div class="col-xs-6 col-sm-3 placeholder" style="width: 200px;">
-							<h4>
+						<h4>
 							<input type="text" class="form-control" id="currentcy_result"
 								placeholder="结果" />
 						</h4>
 					</div>
 				</div>
-				<!--user trend high chart starts here.....-->
-				<div id="user_trend_container"
-					style="min-width: 300px; height: 300px; max-width: 600px; margin: 0 auto"></div>
-				<!--user trend high chart ends here.....-->
+
+				<!--stock starts here-->
+
+				<div id="stock_container" style="height: 400px; min-width: 310px"></div>
+				<!--stock ends here-->
+
 				<hr
 					style="height: 1px; border: none; border-top: 1px solid #555555;" />
 				<!--search pie chart starts here.....-->
@@ -194,55 +194,38 @@
 </body>
 <script type="text/javascript">
 	$(document).ready(function() {
-		getUserTrend();
 		groupBySearch();
 		funnelSales();
+		stock();
 
 	});
-
-	function exchange(){
-		var source=[];
-		source[1]="USD";
-		source[2]="CNY";
-		source[3]="JPY";
-		source[4]="GBP";
-		source[5]="EUR";
-		source[6]="KRW";
-		var target=[];
-		target[1]="CNY";
-		target[2]="USD";
-		target[3]="JPY";
-		target[4]="GBP";
-		target[5]="EUR";
-		target[6]="KRW";
-		var amount=$('#currency_amount').val();
-		var source_code=source[$('#source_currency').val()];
-		var target_code=target[$('#target_currency').val()];
-		console.log(amount);
-		console.log(source_code);
-		console.log(target_code);
-
-		$.getJSON("${pageContext.request.contextPath}/util/exchange?amount="+amount+'&source='+source_code+'&target='+target_code,  function(data) {
-				$('#currentcy_result').val(data);
-		});
-	}
-
-	function getUserTrend() {
+	function stock() {
 		var yData = [];
+		var maxData = [];
+		var minData = [];
+		var openData = [];
+		var closeData = [];
 		var xData = [];
-		$.getJSON('${pageContext.request.contextPath}/user/trend',
+		$.getJSON('${pageContext.request.contextPath}/util/stock',
 				function(data) {
-					for (key in data) {
-						console.log(key);
-						yData.push(key);
-						xData.push(data[key]);
+					var obj = data;
+					for (var i = 0; i < obj.length; i++) {
+						var stock = obj[i];
+						var date = stock.date;
+						var max = stock.max;
+						var min = stock.min;
+						var open = stock.open;
+						var close = stock.close;
+						yData.push(date);
+						maxData.push(max);
+						minData.push(min);
+						openData.push(open);
+						closeData.push(close);
 					}
-					console.log(yData);
-					console.log(xData);
 				}).done(function() {
-			$('#user_trend_container').highcharts({
+			$('#stock_container').highcharts({
 				title : {
-					text : '用户趋势',
+					text : '上证综指',
 					x : -20
 				//center
 				},
@@ -255,7 +238,7 @@
 				},
 				yAxis : {
 					title : {
-						text : '每日新加用户'
+						text : '指数'
 					},
 					plotLines : [ {
 						value : 0,
@@ -273,12 +256,49 @@
 					borderWidth : 0
 				},
 				series : [ {
-					name : '',
-					data : xData
+					name : '最高点',
+					data : maxData
+				}, {
+					name : '最低点',
+					data : minData
+				}, {
+					name : '开盘',
+					data : openData
+				}, {
+					name : '收市',
+					data : closeData
 				} ]
 			});
 		});
+	}
 
+	function exchange() {
+		var source = [];
+		source[1] = "USD";
+		source[2] = "CNY";
+		source[3] = "JPY";
+		source[4] = "GBP";
+		source[5] = "EUR";
+		source[6] = "KRW";
+		var target = [];
+		target[1] = "CNY";
+		target[2] = "USD";
+		target[3] = "JPY";
+		target[4] = "GBP";
+		target[5] = "EUR";
+		target[6] = "KRW";
+		var amount = $('#currency_amount').val();
+		var source_code = source[$('#source_currency').val()];
+		var target_code = target[$('#target_currency').val()];
+		console.log(amount);
+		console.log(source_code);
+		console.log(target_code);
+
+		$.getJSON("${pageContext.request.contextPath}/util/exchange?amount="
+				+ amount + '&source=' + source_code + '&target=' + target_code,
+				function(data) {
+					$('#currentcy_result').val(data);
+				});
 	}
 
 	//funnel sales function starts here...

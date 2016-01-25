@@ -18,6 +18,7 @@
 		<module>xuwuji-wechat-admin</module>
 		<module>xuwuji-wechat-app</module>
 		<module>xuwuji-wechat-common</module>
+		<module>stock</module>
 	</modules>
 
 	<dependencies>

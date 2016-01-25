@@ -1,6 +1,7 @@
 package com.xuwuji.wechat.common.util;
 
 import org.joda.time.DateTime;
+import org.joda.time.Days;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
@@ -11,7 +12,7 @@ public class TimeUtil {
 	}
 
 	public static DateTimeFormatter getDateFormatter() {
-		return DateTimeFormat.forPattern("yyyy-MM-dd HH:mm");
+		return DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
 	}
 
 	public static DateTimeFormatter getDateFormatter1() {
@@ -51,6 +52,11 @@ public class TimeUtil {
 		return getDateTime(time);
 	}
 
+	public static String converLongUnix(long unixTime) {
+		DateTime time = new DateTime(unixTime);
+		return getDateTime(time);
+	}
+
 	public static String converSimpleUnix(long unixTime) {
 		DateTime time = new DateTime(unixTime * 1000L);
 		return getSimpleDateTime(time);
@@ -69,5 +75,19 @@ public class TimeUtil {
 	public static String recurrentTime() {
 		// TODO Auto-generated method stub
 		return getDateTime1(DateTime.now());
+	}
+
+	public static int dateLength(String startDate, String endDate) {
+		DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
+		DateTime start = formatter.parseDateTime(startDate);
+		DateTime end = formatter.parseDateTime(endDate);
+		int length = Days.daysBetween(start.toLocalDate(), end.toLocalDate()).getDays();
+		return length;
+	}
+
+	public static DateTime convertString(String d) {
+		DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
+		DateTime date = formatter.parseDateTime(d);
+		return date;
 	}
 }
