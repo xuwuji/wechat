@@ -4,11 +4,6 @@ import java.net.URLConnection;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.xuwuji.wechat.common.util.HttpUtil;
-import com.xuwuji.wechat.common.util.TimeUtil;
 
 /**
  * Service for common api service
@@ -18,11 +13,7 @@ import com.xuwuji.wechat.common.util.TimeUtil;
  *         Jan 22, 2016
  */
 
-@Service
 public class APIService {
-
-	@Autowired
-	private StockService stockService;
 	private static String STOCK_KEY = "39db628ef6cb48385695ee018e927d67";
 
 	/**
