@@ -73,7 +73,7 @@
 					<li><a href="${pageContext.request.contextPath}/order/index">订单管理</a></li>
 					<li><a href="${pageContext.request.contextPath}/user/index">用户分析</a></li>
 					<li class="active"><a href="">金融工具</a></li>
-					<li><a href="">预留位</a></li>
+					<li><a href="${pageContext.request.contextPath}/cost/util">成本控制</a></li>
 				</ul>
 				<ul class="nav nav-sidebar">
 					<li><a href="">预留位</a></li>
@@ -136,16 +136,41 @@
 						</h4>
 
 					</div>
-					<div class="col-xs-6 col-sm-3 placeholder" style="width: 200px;">
+					<div class="col-xs-6 col-sm-3 placeholder" style="width: 150px;">
 						<h4>
 							<input type="text" class="form-control" id="currentcy_result"
 								placeholder="结果" />
 						</h4>
 					</div>
 				</div>
+				<hr
+					style="height: 1px; border: none; border-top: 1px solid #555555;" />
 
 				<!--stock starts here-->
+				<div class="row placeholders">
+					<div class="col-xs-6 col-sm-3 placeholder">
+						<h4>
+							<div class="bfh-datepicker" data-format="y-m-d" data-date="today"
+								id="startDate"></div>
+						</h4>
+					</div>
+					<div class="col-xs-6 col-sm-3 placeholder">
+						<h4>
+							<div class="bfh-datepicker" data-format="y-m-d" data-date="today"
+								id="endDate"></div>
+						</h4>
+					</div>
+					<div class="col-xs-6 col-sm-3 placeholder"
+						style="padding-left: 0px; width: 115px;">
+						<h4>
+							<button type="button" class="btn btn-primary"
+								data-target='#myModa2' data-toggle='modal' onclick="stock_apply()"
+								style="width: 76px;">查询</button>
+						</h4>
 
+					</div>
+
+				</div>
 				<div id="stock_container" style="height: 400px; min-width: 310px"></div>
 				<!--stock ends here-->
 
@@ -196,17 +221,25 @@
 	$(document).ready(function() {
 		groupBySearch();
 		funnelSales();
-		stock();
+		stock("2016-01-25","2016-01-25");
 
 	});
-	function stock() {
+
+	function stock_apply(){
+		var startDate=$('#startDate').val();
+		var endDate=$('#endDate').val();
+		stock(startDate,endDate);
+	}
+
+
+	function stock(startDate,endDate) {
 		var yData = [];
 		var maxData = [];
 		var minData = [];
 		var openData = [];
 		var closeData = [];
 		var xData = [];
-		$.getJSON('${pageContext.request.contextPath}/util/stock',
+		$.getJSON('${pageContext.request.contextPath}/util/stock?startDate='+startDate+'&endDate='+endDate,
 				function(data) {
 					var obj = data;
 					for (var i = 0; i < obj.length; i++) {
@@ -230,7 +263,7 @@
 				//center
 				},
 				subtitle : {
-					text : '最近一月',
+					text : '默认显示最近一月',
 					x : -20
 				},
 				xAxis : {

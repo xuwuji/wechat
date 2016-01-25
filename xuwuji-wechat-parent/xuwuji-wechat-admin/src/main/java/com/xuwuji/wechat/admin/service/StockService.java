@@ -14,17 +14,7 @@ import com.xuwuji.wechat.common.util.TimeUtil;
 @Service
 public class StockService {
 
-	public static void addRecord(Double dot, String type) {
-		SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession();
-		String table = Constants.stock_table.get(type);
-		StockMapper mapper = session.getMapper(StockMapper.class);
-		String date = TimeUtil.currentTimewithoutMinutes();
-		mapper.addStockRecord(dot, table, date);
-		session.commit();
-		session.close();
-	}
-
-	public static List<HashMap<String, Object>> get(String market) {
+	public List<HashMap<String, Object>> get(String market) {
 		SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession();
 		StockMapper mapper = session.getMapper(StockMapper.class);
 		String table = Constants.stock_table.get(market);
@@ -34,7 +24,7 @@ public class StockService {
 		return list;
 	}
 
-	public static List<HashMap<String, Object>> getClose(String market) {
+	public List<HashMap<String, Object>> getClose(String market) {
 		SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession();
 		StockMapper mapper = session.getMapper(StockMapper.class);
 		String table = Constants.stock_table.get(market);
@@ -44,7 +34,7 @@ public class StockService {
 		return list;
 	}
 
-	public static List<HashMap<String, Object>> getMax(String market) {
+	public List<HashMap<String, Object>> getMax(String market) {
 		SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession();
 		StockMapper mapper = session.getMapper(StockMapper.class);
 		String table = Constants.stock_table.get(market);
@@ -54,7 +44,7 @@ public class StockService {
 		return list;
 	}
 
-	public static List<HashMap<String, Object>> getMin(String market) {
+	public List<HashMap<String, Object>> getMin(String market) {
 		SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession();
 		StockMapper mapper = session.getMapper(StockMapper.class);
 		String table = Constants.stock_table.get(market);

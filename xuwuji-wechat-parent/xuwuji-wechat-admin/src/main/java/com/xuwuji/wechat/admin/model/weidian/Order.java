@@ -5,6 +5,10 @@ package com.xuwuji.wechat.admin.model.weidian;
  * 
  * Use builder pattern to create a new object
  * 
+ * No setter method in this class, so it is immutable
+ * 
+ * Everytime building an instance, the builder returns a new instance
+ * 
  * @author wuxu
  *
  *         Jan 19, 2016

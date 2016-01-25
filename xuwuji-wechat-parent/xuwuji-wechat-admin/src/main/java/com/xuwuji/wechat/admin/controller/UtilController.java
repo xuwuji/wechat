@@ -45,8 +45,9 @@ public class UtilController {
 	}
 
 	@RequestMapping(value = "util/stock", method = RequestMethod.GET)
-	public @ResponseBody ArrayList<Stock> stock() throws IOException, ParseException {
-		ArrayList<Stock> list = apiService.getStockInfo("2016-01-25", "2016-01-25", "shanghai");
+	public @ResponseBody ArrayList<Stock> stock(@RequestParam("startDate") String startDate,
+			@RequestParam("endDate") String endDate) throws IOException, ParseException {
+		ArrayList<Stock> list = apiService.getStockInfo(startDate, endDate, "shanghai");
 		return list;
 	}
 }

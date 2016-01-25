@@ -35,7 +35,6 @@ public class APIService {
 	@Autowired
 	private StockService stockService;
 	private static String EXCHANGE_KEY = "8bcacfa2a22d40de644ff364a56b6c31";
-	private static String STOCK_KEY = "39db628ef6cb48385695ee018e927d67";
 
 	/**
 	 * exchange service api
@@ -63,71 +62,13 @@ public class APIService {
 	}
 
 	/**
-	 * stock service api
-	 * 
-	 * @throws IOException
-	 * @throws ParseException
-	 */
-	public void stock() throws IOException, ParseException {
-		String url = "http://a.apix.cn/apixmoney/stockdata/stock?stockid=50";
-		URL realUrl = new URL(url);
-		URLConnection connection = realUrl.openConnection();
-		connection = APIUtil.setRequestHeader(connection);
-		connection.setRequestProperty("apix-key", STOCK_KEY);
-		connection.connect();
-		String response = HttpUtil.outputResponse(connection);
-		JSONParser parser = new JSONParser();
-		JSONObject obj = (JSONObject) parser.parse(response);
-		JSONObject data = (JSONObject) obj.get("data");
-		JSONObject market = (JSONObject) data.get("market");
-		JSONObject shanghai = (JSONObject) market.get("shanghai");
-		JSONObject shenzhen = (JSONObject) market.get("shenzhen");
-		JSONObject DJI = (JSONObject) market.get("DJI");
-		JSONObject HSI = (JSONObject) market.get("HSI");
-		Double shanghai_dot = Double.valueOf(shanghai.get("curdot").toString());
-		String shenzhen_dot = shenzhen.get("curdot").toString();
-		String DJI_dot = DJI.get("curdot").toString();
-		String HSI_dot = HSI.get("curdot").toString();
-		StockService.addRecord(shanghai_dot, "shanghai");
-		System.out.println(response);
-		System.out.println("shanghai:" + shanghai_dot);
-		System.out.println("shenzhen:" + shenzhen_dot);
-		System.out.println("DJI:" + DJI_dot);
-		System.out.println("HSI:" + HSI_dot);
-	}
-
-	public HashMap<String, Double> getStocks(String market) {
-		StockService service = new StockService();
-		List<HashMap<String, Object>> list = service.get(market);
-		HashMap<String, Double> result = new HashMap();
-		for (HashMap<String, Object> map : list) {
-			long time = 0;
-			Double dot = 0.0;
-			for (Entry<String, Object> entry : map.entrySet()) {
-				String metric = entry.getKey();
-				if (metric.equals("time")) {
-					time = ((Timestamp) entry.getValue()).getTime() / 1000;
-					System.out.println(entry.getKey() + ":" + time);
-				} else {
-					dot = (Double) entry.getValue();
-					System.out.println(entry.getKey() + ":" + dot);
-				}
-			}
-			System.out.println(time + ":" + dot);
-			result.put(TimeUtil.converUnix(time), dot);
-		}
-		return result;
-	}
-
-	/**
 	 * return the maximum dot of every day
 	 * 
 	 * @param market
 	 * @return
 	 */
 	public HashMap<String, Double> getMaxStocksGroupByDate(String market) {
-		StockService service = new StockService();
-		List<HashMap<String, Object>> list = service.getMax(market);
+		List<HashMap<String, Object>> list = stockService.getMax(market);
 		HashMap<String, Double> result = this.parseStock(list);
 		return result;
 	}
@@ -139,8 +80,7 @@ public class APIService {
 	 * @return
 	 */
 	public HashMap<String, Double> getOpenStocksGroupByDate(String market) {
-		StockService service = new StockService();
-		List<HashMap<String, Object>> list = service.getOpen(market);
+		List<HashMap<String, Object>> list = stockService.getOpen(market);
 		HashMap<String, Double> result = this.parseStock(list);
 		return result;
 	}
@@ -152,8 +92,7 @@ public class APIService {
 	 * @return
 	 */
 	public HashMap<String, Double> getCloseStocksGroupByDate(String market) {
-		StockService service = new StockService();
-		List<HashMap<String, Object>> list = service.getClose(market);
+		List<HashMap<String, Object>> list = stockService.getClose(market);
 		HashMap<String, Double> result = this.parseStock(list);
 		return result;
 	}
@@ -165,8 +104,7 @@ public class APIService {
 	 * @return
 	 */
 	public HashMap<String, Double> getMinStocksGroupByDate(String market) {
-		StockService service = new StockService();
-		List<HashMap<String, Object>> list = service.getMin(market);
+		List<HashMap<String, Object>> list = stockService.getMin(market);
 		HashMap<String, Double> result = this.parseStock(list);
 		return result;
 	}
@@ -180,10 +118,8 @@ public class APIService {
 				String metric = entry.getKey();
 				if (metric.equals("date")) {
 					time = (String) entry.getValue();
-					// System.out.println(entry.getKey() + ":" + time);
 				} else {
 					dot = (Double) entry.getValue();
-					// System.out.println(entry.getKey() + ":" + dot);
 				}
 			}
 			System.out.println(time + ":" + dot);
@@ -208,7 +144,6 @@ public class APIService {
 		for (int i = 0; i <= length; i++) {
 			DateTime d = date.plusDays(i);
 			String dateString = TimeUtil.getSimpleDateTime(d);
-			System.out.println("!!!!!" + dateString);
 			Double open_dot = open.get(dateString);
 			Double close_dot = close.get(dateString);
 			Double max_dot = max.get(dateString);
@@ -224,8 +159,8 @@ public class APIService {
 	public static void main(String[] args) throws IOException, ParseException {
 		APIService a = new APIService();
 		// a.exchange("CNY", "USD", "100");
-		a.stock();
-		a.getStocks("shanghai");
+		// a.stock();
+		// a.getStocks("shanghai");
 	}
 
 }
