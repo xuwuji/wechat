@@ -20,10 +20,10 @@ public interface StockMapper {
 	@Select("select dot,date from ${table} as select_table inner join (select min(time) as time from ${table} where HOUR(time) >= 9 and MINUTE(time)>=30 group by date) temp on select_table.time =temp.time")
 	public List<HashMap<String, Object>> getOpen(@Param("table") String table);
 
-	@Select("select max(dot) as dot,date from ${table} group by date")
+	@Select("select max(dot) as dot,date from ${table} where HOUR(time)>=9 and minute(time)>=30 group by date")
 	public List<HashMap<String, Object>> getMax(@Param("table") String table);
 
-	@Select("select min(dot) as dot,date from ${table} group by date")
+	@Select("select min(dot) as dot,date from ${table} where HOUR(time)>=9 and minute(time)>=30 group by date")
 	public List<HashMap<String, Object>> getMin(@Param("table") String table);
 
 }

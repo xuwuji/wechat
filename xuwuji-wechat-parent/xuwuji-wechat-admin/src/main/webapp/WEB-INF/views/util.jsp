@@ -32,6 +32,9 @@
 <script
 	src="${pageContext.request.contextPath}/resources/js/highchart/modules/exporting.js"></script>
 
+<script
+	src="${pageContext.request.contextPath}/resources/js/moment.min.js"></script>
+
 </head>
 <body>
 	<nav class="navbar navbar-inverse navbar-fixed-top">
@@ -221,7 +224,8 @@
 	$(document).ready(function() {
 		groupBySearch();
 		funnelSales();
-		stock("2016-01-25","2016-01-25");
+		var endDate=$('#endDate').val();
+		stock(endDate,endDate);
 
 	});
 
@@ -263,7 +267,7 @@
 				//center
 				},
 				subtitle : {
-					text : '默认显示最近一月',
+					text : '默认显示当天',
 					x : -20
 				},
 				xAxis : {

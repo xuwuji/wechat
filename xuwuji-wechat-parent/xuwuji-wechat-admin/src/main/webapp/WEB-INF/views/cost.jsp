@@ -36,7 +36,7 @@
 <script
 	src="${pageContext.request.contextPath}/resources/js/highchart/themes/dark-unica.js"></script>
 <script type="text/javascript"
-	src="http://cdn.hcharts.cn/highcharts/highcharts-more.js"></script>
+	src="${pageContext.request.contextPath}/resources/js/highcharts-more.js"></script>
 </head>
 <body>
 	<nav class="navbar navbar-inverse navbar-fixed-top">
@@ -94,37 +94,6 @@
 				<!--3d cost chart ends here-->
 				<hr
 					style="height: 1px; border: none; border-top: 1px solid #555555;" />
-
-				<!--stock starts here-->
-				<div class="row placeholders">
-					<div class="col-xs-6 col-sm-3 placeholder">
-						<h4>
-							<div class="bfh-datepicker" data-format="y-m-d" data-date="today"
-								id="startDate"></div>
-						</h4>
-					</div>
-					<div class="col-xs-6 col-sm-3 placeholder">
-						<h4>
-							<div class="bfh-datepicker" data-format="y-m-d" data-date="today"
-								id="endDate"></div>
-						</h4>
-					</div>
-					<div class="col-xs-6 col-sm-3 placeholder"
-						style="padding-left: 0px; width: 115px;">
-						<h4>
-							<button type="button" class="btn btn-primary"
-								data-target='#myModa2' data-toggle='modal'
-								onclick="stock_apply()" style="width: 76px;">查询</button>
-						</h4>
-
-					</div>
-
-				</div>
-				<div id="stock_container" style="height: 400px; min-width: 310px"></div>
-				<!--stock ends here-->
-
-				<hr
-					style="height: 1px; border: none; border-top: 1px solid #555555;" />
 				<!--spider chart starts here.....-->
 				<div id="spider_container" style="min-width: 700px; height: 400px"></div>
 				<!--spider chart ends here.....-->
@@ -167,99 +136,11 @@
 </body>
 <script type="text/javascript">
 	$(document).ready(function() {
-		stock("2016-01-25", "2016-01-25");
 		cost3d();
 		spider();
 	});
 
-	function stock_apply() {
-		var startDate = $('#startDate').val();
-		var endDate = $('#endDate').val();
-		stock(startDate, endDate);
-	}
-
-	function stock(startDate, endDate) {
-		var yData = [];
-		var maxData = [];
-		var minData = [];
-		var openData = [];
-		var closeData = [];
-		var xData = [];
-		$.getJSON(
-				'${pageContext.request.contextPath}/util/stock?startDate='
-						+ startDate + '&endDate=' + endDate, function(data) {
-					var obj = data;
-					for (var i = 0; i < obj.length; i++) {
-						var stock = obj[i];
-						var date = stock.date;
-						var max = stock.max;
-						var min = stock.min;
-						var open = stock.open;
-						var close = stock.close;
-						yData.push(date);
-						maxData.push(max);
-						minData.push(min);
-						openData.push(open);
-						closeData.push(close);
-					}
-				}).done(function() {
-			var chart = new Highcharts.Chart({
-				chart : {
-					renderTo : 'stock_container',
-
-					options3d : {
-						enabled : false,
-					}
-				},
-				title : {
-					text : '上证综指',
-					x : -20
-				//center
-				},
-				subtitle : {
-					text : '默认显示最近一月',
-					x : -20
-				},
-				xAxis : {
-					categories : yData
-				},
-				yAxis : {
-					title : {
-						text : '指数'
-					},
-					plotLines : [ {
-						value : 0,
-						width : 1,
-						color : '#808080'
-					} ]
-				},
-				tooltip : {
-					valueSuffix : ''
-				},
-
-				legend : {
-					layout : 'vertical',
-					align : 'right',
-					verticalAlign : 'middle',
-					borderWidth : 0
-				},
-				series : [ {
-					name : '最高点',
-					data : maxData
-				}, {
-					name : '最低点',
-					data : minData
-				}, {
-					name : '开盘',
-					data : openData
-				}, {
-					name : '收市',
-					data : closeData
-				} ]
-			})
-		});
-	}
-
+	
 	function spider() {
 
 			$('#spider_container')
