@@ -64,4 +64,14 @@ public class StockService {
 		return list;
 	}
 
+	public static List<HashMap<String, Object>> getAllDots(String market) {
+		SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession();
+		StockMapper mapper = session.getMapper(StockMapper.class);
+		String table = Constants.stock_table.get(market);
+		List<HashMap<String, Object>> list = mapper.getAllDots(table);
+		session.commit();
+		session.close();
+		return list;
+	}
+
 }

@@ -26,4 +26,7 @@ public interface StockMapper {
 	@Select("select min(dot) as dot,date from ${table} where HOUR(time)>=9 and minute(time)>=30 group by date")
 	public List<HashMap<String, Object>> getMin(@Param("table") String table);
 
+	@Select("select dot from ${table} where HOUR(time)>=9 and minute(time)>=30")
+	public List<HashMap<String, Object>> getAllDots(@Param("table") String table);
+
 }
