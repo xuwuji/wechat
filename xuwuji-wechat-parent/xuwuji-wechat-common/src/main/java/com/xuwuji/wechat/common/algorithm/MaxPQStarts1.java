@@ -7,6 +7,15 @@ package com.xuwuji.wechat.common.algorithm;
  * 
  * the capacity of elements should be n+1
  * 
+ * use this max pq to find a series of a given number of smallest elements
+ * 
+ * for example, find 10 smallest elements in 1 million elements
+ * 
+ * because this is a max-oriented heap, so we always know that the maximum is in
+ * the top, set a heap with 10 capacity, scan all elements, if the new element
+ * is smaller than top, swap them and reorder the pq, so the heap will always
+ * store "small" elements
+ * 
  * @author wuxu
  *
  *         2016-1-27
@@ -41,7 +50,7 @@ public class MaxPQStarts1<Key extends Comparable<Key>> {
 	private int findMin() {
 		int min = 1;
 		int k = 1;
-		while (k < size) {
+		while (2 * k < size) {
 			if ((1 + 2 * k) <= size && less(array[2 * k + 1], array[2 * k])) {
 				min = 2 * k + 1;
 			} else {
@@ -49,6 +58,7 @@ public class MaxPQStarts1<Key extends Comparable<Key>> {
 			}
 			k = min;
 		}
+		System.out.println("min" + min);
 		return min;
 	}
 
@@ -67,16 +77,16 @@ public class MaxPQStarts1<Key extends Comparable<Key>> {
 	 */
 	public void insert(Key element) {
 		if (isFull()) {
-			int min = this.findMin();
-			if (less(array[min], element)) {
-				array[min] = element;
-				swim(min);
+			Key max = this.array[1];
+			if (less(element, max)) {
+				array[1] = element;
+				sink(1);
 			}
 		} else {
 			size++;
+			// System.out.println("index:" + size);
 			array[size] = element;
 			swim(size);
-
 		}
 	}
 
@@ -94,30 +104,35 @@ public class MaxPQStarts1<Key extends Comparable<Key>> {
 		}
 	}
 
+	/**
+	 * sink a element, make it to the right place
+	 * 
+	 * @param index
+	 */
+	private void sink(int index) {
+		int biggerChild = 2 * index;
+		while (biggerChild < size) {
+			if ((1 + biggerChild) <= size && less(array[biggerChild], array[biggerChild + 1])) {
+				biggerChild = biggerChild + 1;
+			}
+			if (less(array[index], array[biggerChild])) {
+				swap(index, biggerChild);
+			} else {
+				break;
+			}
+			index = biggerChild;
+		}
+	}
+
 	public Key[] getArray() {
 		return this.array;
 	}
 
 	public static void main(String[] args) {
 		MaxPQStarts1<Integer> pq = new MaxPQStarts1<Integer>(10);
-		pq.insert(1);
-		pq.insert(2);
-		pq.insert(3);
-		pq.insert(4);
-		pq.insert(5);
-		pq.insert(6);
-		pq.insert(1);
-		pq.insert(2);
-		pq.insert(3);
-		pq.insert(4);
-		pq.insert(5);
-		pq.insert(6);
-		pq.insert(1);
-		pq.insert(2);
-		pq.insert(3);
-		pq.insert(4);
-		pq.insert(5);
-		pq.insert(6);
+		for (int i = 1; i < 100000000; i++) {
+			pq.insert(i);
+		}
 		for (Comparable key : pq.array) {
 			System.out.println(key);
 		}
